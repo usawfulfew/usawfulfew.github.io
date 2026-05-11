@@ -5,11 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>System Profiles</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
   @font-face {
     font-family: 'OpenDyslexic';
     src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.woff') format('woff');
+    font-weight: normal;
+  }
+  @font-face {
+    font-family: 'LexieReadable';
+    src: url('https://cdn.jsdelivr.net/gh/googlefonts/lexie-readable@main/fonts/LexieReadable-Regular.woff2') format('woff2');
     font-weight: normal;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,84 +26,46 @@
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  input, textarea, select { caret-color: #9333ea; font-family: var(--font); }
+  input, textarea { caret-color: #9333ea; font-family: var(--font); }
   input:focus, textarea:focus { border-color: #6d28d9 !important; outline: none; }
   button { cursor: pointer; font-family: var(--font); }
-
-  /* Layout */
   #app { min-height: 100vh; padding-bottom: 80px; }
-  .header {
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    padding: 18px 26px; position: sticky; top: 0; z-index: 100;
-  }
-  .header-inner {
-    max-width: 950px; margin: 0 auto; display: flex; align-items: center;
-    justify-content: space-between; flex-wrap: wrap; gap: 10px;
-  }
+  .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 18px 26px; position: sticky; top: 0; z-index: 100; }
+  .header-inner { max-width: 950px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .system-title { color: var(--text); font-family: var(--display-font); font-size: 22px; font-weight: 400; }
   .system-sub { color: var(--muted); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 2px; opacity: 0.6; }
   .header-btns { display: flex; gap: 8px; align-items: center; }
   .main { max-width: 950px; margin: 0 auto; padding: 28px 22px 0; }
-
-  /* Buttons */
   .btn-ghost { padding: 7px 15px; background: transparent; border: 1px solid var(--border); border-radius: 7px; color: var(--muted); font-size: 12px; }
-  .btn-ghost:hover { border-color: var(--muted); }
   .btn-purple { padding: 7px 15px; background: linear-gradient(135deg,#6d28d9,#9333ea); border: none; border-radius: 7px; color: #fff; font-size: 12px; font-weight: 700; }
   .btn-edit { padding: 7px 15px; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; background: transparent; color: var(--muted); }
   .btn-edit.active { background: rgba(147,51,234,0.15); color: #9333ea; font-weight: 700; border-color: rgba(147,51,234,0.3); }
   .btn-icon { width: 34px; height: 34px; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 16px; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0; }
-  .btn-icon:hover { border-color: var(--muted); }
   .btn-save { padding: 8px 16px; background: linear-gradient(135deg,#065f46,#10b981); border: none; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 700; }
   .btn-cancel { padding: 8px 14px; background: transparent; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 13px; }
   .btn-danger { position: absolute; top: 8px; left: 8px; background: #2a1a1a; border: 1px solid #5a2020; border-radius: 5px; color: #f87171; width: 22px; height: 22px; font-size: 13px; display: flex; align-items: center; justify-content: center; padding: 0; }
-
-  /* Cards */
   .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 13px; }
-  .alter-card {
-    position: relative; border-radius: 18px; background: var(--surface);
-    border: 1.5px solid var(--border); padding: 24px 18px 18px;
-    transition: all 0.22s; cursor: pointer; text-align: center;
-  }
+  .alter-card { position: relative; border-radius: 18px; background: var(--surface); border: 1.5px solid var(--border); padding: 24px 18px 18px; transition: all 0.22s; cursor: pointer; text-align: center; }
   .alter-card:hover { transform: translateY(-4px); }
-  .card-fronting-badge {
-    position: absolute; top: 10px; right: 10px; border-radius: 20px;
-    padding: 2px 9px; font-size: 9px; font-weight: 700; color: #fff; letter-spacing: 0.07em;
-  }
+  .card-fronting-badge { position: absolute; top: 10px; right: 10px; border-radius: 20px; padding: 2px 9px; font-size: 9px; font-weight: 700; color: #fff; letter-spacing: 0.07em; }
   .card-emoji { font-size: 40px; margin-bottom: 10px; display: block; }
   .card-name { font-family: var(--display-font); font-size: 18px; margin-bottom: 3px; color: var(--text); }
   .card-pronouns { font-size: 11px; margin-bottom: 9px; font-weight: 600; }
   .card-role { background: rgba(0,0,0,0.2); border-radius: 7px; padding: 3px 9px; display: inline-block; font-size: 10px; color: var(--muted); }
-
-  /* Fronting banner */
-  .fronting-banner {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 13px;
-    padding: 13px 20px; margin-bottom: 22px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  }
+  .fronting-banner { background: var(--surface); border: 1px solid var(--border); border-radius: 13px; padding: 13px 20px; margin-bottom: 22px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .fronting-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 7px #10b981; }
   .fronting-label { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-  .fronting-chip {
-    display: inline-flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.2);
-    border-radius: 20px; padding: 3px 12px; cursor: pointer; border: 1px solid transparent; font-size: 12px; font-weight: 700;
-  }
-
-  /* Profile detail */
+  .fronting-chip { display: inline-flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 3px 12px; cursor: pointer; border: 1px solid transparent; font-size: 12px; font-weight: 700; }
   .profile-back { background: transparent; border: none; color: var(--muted); font-size: 13px; padding: 0 0 20px; display: flex; align-items: center; gap: 6px; }
-  .profile-hero {
-    background: var(--surface); border-radius: 22px; padding: 30px;
-    margin-bottom: 16px; position: relative; overflow: hidden;
-  }
+  .profile-hero { background: var(--surface); border-radius: 22px; padding: 30px; margin-bottom: 16px; position: relative; overflow: hidden; }
   .profile-main { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 26px 28px; margin-bottom: 14px; }
   .profile-name { font-family: var(--display-font); font-size: 30px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
   .profile-pronouns { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
   .fronting-tag { border-radius: 20px; padding: 3px 11px; font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.06em; display: inline-block; }
-
-  /* Section header */
   .section-header { display: flex; align-items: center; gap: 12px; margin: 26px 0 14px; }
   .section-line-l { height: 1px; flex: 1; }
   .section-line-r { height: 1px; flex: 1; }
   .section-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap; }
-
-  /* Fields */
   .field { margin-bottom: 16px; }
   .field-label { display: block; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 5px; }
   .field-value { font-size: 13px; line-height: 1.72; white-space: pre-wrap; color: var(--text); }
@@ -106,8 +73,6 @@
   .field-input { width: 100%; padding: 9px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; }
   .field-textarea { width: 100%; min-height: 70px; padding: 9px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; resize: vertical; line-height: 1.65; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
-
-  /* Collapsible */
   .collapsible { border-radius: 11px; overflow: hidden; margin-bottom: 8px; }
   .collapsible-btn { width: 100%; padding: 11px 16px; background: transparent; border: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .collapsible-btn.open { background: rgba(255,255,255,0.03); }
@@ -115,26 +80,18 @@
   .collapsible-arrow { font-size: 13px; transition: transform 0.2s; display: inline-block; }
   .collapsible-arrow.open { transform: rotate(180deg); }
   .collapsible-content { padding: 2px 16px 16px; }
-
-  /* Toggle */
   .toggle-track { width: 44px; height: 24px; border-radius: 12px; position: relative; transition: background 0.2s; flex-shrink: 0; cursor: pointer; }
   .toggle-thumb { position: absolute; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: left 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-
-  /* Notes */
   .notes-section { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 26px 28px; }
   .note-item { background: rgba(0,0,0,0.2); border-radius: 10px; padding: 11px 15px; }
   .note-author { font-size: 11px; font-weight: 700; }
   .note-date { font-size: 10px; color: var(--muted); opacity: 0.6; }
   .note-text { font-size: 13px; line-height: 1.65; margin-top: 4px; color: var(--text); }
-
-  /* Modal overlay */
   .modal-overlay { position: fixed; inset: 0; background: rgba(8,6,18,0.88); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); }
   .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 38px 42px; width: 350px; box-shadow: 0 30px 90px rgba(0,0,0,0.7); }
   .modal-title { font-family: var(--display-font); font-size: 22px; text-align: center; color: var(--text); margin-bottom: 6px; }
   .modal-sub { color: var(--muted); font-size: 13px; text-align: center; margin-bottom: 24px; }
-
-  /* Settings */
-  .settings-box { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px 36px; width: 500px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 90px rgba(0,0,0,0.7); }
+  .settings-box { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px 36px; width: 540px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 90px rgba(0,0,0,0.7); }
   .settings-label { display: block; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
   .bg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .bg-preset-btn { padding: 10px 8px; border-radius: 10px; border: 2px solid transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: border 0.15s; }
@@ -152,36 +109,38 @@
   .edit-inline { background: transparent; border: none; border-bottom: 2px solid; color: var(--text); font-size: 28px; width: 100%; padding: 0 0 3px; margin-bottom: 5px; }
   .edit-inline-sm { background: transparent; border: none; border-bottom: 1px solid; font-size: 13px; width: 100%; padding: 0 0 3px; }
   .add-form { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 26px 28px; margin-bottom: 22px; }
-
+  .font-option { border: 2px solid var(--border); border-radius: 10px; padding: 12px 16px; cursor: pointer; transition: border 0.15s; margin-bottom: 8px; }
+  .font-option.selected { border-color: #9333ea; background: rgba(147,51,234,0.08); }
+  .font-option-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .font-option-desc { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .font-option-preview { font-size: 14px; line-height: 1.5; color: var(--text); opacity: 0.85; }
+  /* Import/export panel */
+  .io-box { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px 36px; width: 500px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 90px rgba(0,0,0,0.7); }
+  .io-btn { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; width: 100%; text-align: left; transition: border 0.15s; margin-bottom: 10px; }
+  .io-btn:hover { border-color: var(--muted); }
+  .io-btn-icon { font-size: 22px; flex-shrink: 0; }
+  .io-btn-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .io-btn-desc { font-size: 12px; color: var(--muted); }
+  .io-warning { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25); border-radius: 10px; padding: 12px 16px; margin: 14px 0; font-size: 12px; color: #fbbf24; line-height: 1.6; }
   @media (max-width: 600px) {
     .two-col { grid-template-columns: 1fr; }
     .modal-box { padding: 28px 24px; width: 92vw; }
-    .settings-box { padding: 24px 20px; }
+    .settings-box, .io-box { padding: 24px 20px; }
     .bg-grid { grid-template-columns: repeat(3, 1fr); }
   }
 </style>
 </head>
 <body>
 <div id="app"></div>
-
 <script>
-// ─── Storage (localStorage) ──────────────────────────────────────────────────
+// ─── Storage ─────────────────────────────────────────────────────────────────
 const store = {
   get(key) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch { return null; } },
   set(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} },
 };
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Constants ───────────────────────────────────────────────────────────────
 const EDIT_PASSWORD = "system2024";
-
-const EMPTY_ALTER = {
-  id:"", name:"", pronouns:"", role:"", roleDescription:"", age:"", preferredLabels:"",
-  appearance:"", music:"", mediaFaves:"", hobbies:"", systemSkills:"",
-  otherLikes:"", dislikes:"", mannerisms:"", internalTraits:"", freeSpace:"",
-  emotionalReg:"", loveLanguages:"", personalProblems:"", triggers:"",
-  substances:"", kinks:"", emoji:"✨", color:"#a78bfa", isFronting:false,
-};
-
 const PALETTE = ["#f87171","#fb923c","#fbbf24","#a3e635","#34d399","#22d3ee","#60a5fa","#a78bfa","#f472b6","#e879f9","#94a3b8","#f9a8d4","#c084fc","#86efac","#fdba74"];
 const EMOJIS = ["🌙","⭐","🌸","🔥","🌊","🍃","💎","🦋","🌈","🐺","🦊","🐉","🌺","✨","🎭","🗡️","🛡️","🎨","🎵","📚","💫","🌻","🦅","🐈","🌿","🧸","🪷","🌑","☁️","🫧","🪞","🕯️","🧿","🫀","🦴","🎪"];
 
@@ -205,7 +164,23 @@ const TEXT_PRESETS = [
   { label:"Dark Forest",value:"#14281e"},
 ];
 
-// ─── App State ───────────────────────────────────────────────────────────────
+// 0 = off, 1 = OpenDyslexic, 2 = Atkinson Hyperlegible, 3 = Lexie Readable
+const DYSLEXIA_FONTS = [
+  { id:0, name:"Off", desc:"Default app fonts", fontFamily:"'DM Sans',sans-serif", displayFamily:"'Playfair Display',serif" },
+  { id:1, name:"OpenDyslexic", desc:"Weighted bottoms on each letter to reduce letter-flipping", fontFamily:"'OpenDyslexic',sans-serif", displayFamily:"'OpenDyslexic',sans-serif" },
+  { id:2, name:"Atkinson Hyperlegible", desc:"Highly distinct letterforms with strong contrast — great for low vision too", fontFamily:"'Atkinson Hyperlegible',sans-serif", displayFamily:"'Atkinson Hyperlegible',sans-serif" },
+  { id:3, name:"Lexie Readable", desc:"Rounded, friendly letterforms designed specifically for dyslexia", fontFamily:"'LexieReadable',sans-serif", displayFamily:"'LexieReadable',sans-serif" },
+];
+
+const EMPTY_ALTER = {
+  id:"", name:"", pronouns:"", role:"", roleDescription:"", age:"", preferredLabels:"",
+  appearance:"", music:"", mediaFaves:"", hobbies:"", systemSkills:"",
+  otherLikes:"", dislikes:"", mannerisms:"", internalTraits:"", freeSpace:"",
+  emotionalReg:"", loveLanguages:"", personalProblems:"", triggers:"",
+  substances:"", kinks:"", emoji:"✨", color:"#a78bfa", isFronting:false,
+};
+
+// ─── State ────────────────────────────────────────────────────────────────────
 let state = {
   alters: store.get("alters_v3") || [{
     ...EMPTY_ALTER, id:"demo1", name:"Example Alter", pronouns:"they/them",
@@ -230,15 +205,11 @@ let state = {
   }],
   notes: store.get("notes_v2") || [],
   systemName: store.get("systemName_v1") || "Our System",
-  settings: store.get("userSettings_v1") || { bgPreset:0, textPreset:0, dyslexiaFont:false },
+  settings: store.get("userSettings_v1") || { bgPreset:0, textPreset:0, dyslexiaFont:0 },
   editMode: false,
   selected: null,
-  view: "gallery", // gallery | profile | settings | password | addAlter
-  editingAlter: null,
   editingName: false,
   showAddForm: false,
-  pendingAction: null,
-  // collapsible open states per-profile
   openSections: {},
   kinkVisible: false,
 };
@@ -253,22 +224,21 @@ function save() {
 function applyTheme(s) {
   const bg = BG_PRESETS[s.bgPreset] || BG_PRESETS[0];
   const text = TEXT_PRESETS[s.textPreset]?.value || "#e8e0f8";
-  const font = s.dyslexiaFont ? "'OpenDyslexic','Comic Sans MS',cursive" : "'DM Sans',sans-serif";
-  const displayFont = s.dyslexiaFont ? "'OpenDyslexic','Comic Sans MS',cursive" : "'Playfair Display',serif";
+  const fontDef = DYSLEXIA_FONTS[s.dyslexiaFont] || DYSLEXIA_FONTS[0];
   const root = document.documentElement;
   root.style.setProperty('--bg', bg.bg);
   root.style.setProperty('--surface', bg.surface);
   root.style.setProperty('--border', bg.border);
   root.style.setProperty('--muted', bg.muted);
   root.style.setProperty('--text', text);
-  root.style.setProperty('--font', font);
-  root.style.setProperty('--display-font', displayFont);
+  root.style.setProperty('--font', fontDef.fontFamily);
+  root.style.setProperty('--display-font', fontDef.displayFamily);
   document.body.style.background = bg.bg;
 }
 
 function uid() { return Math.random().toString(36).slice(2,10); }
 
-// ─── Render helpers ──────────────────────────────────────────────────────────
+// ─── DOM helpers ──────────────────────────────────────────────────────────────
 function h(tag, attrs, ...children) {
   const el = document.createElement(tag);
   if (attrs) Object.entries(attrs).forEach(([k,v]) => {
@@ -284,108 +254,151 @@ function h(tag, attrs, ...children) {
   return el;
 }
 
-// ─── Components ──────────────────────────────────────────────────────────────
+// ─── Import / Export Panel ────────────────────────────────────────────────────
+function renderIOPanel() {
+  function doExport() {
+    const data = {
+      version: 1,
+      exported: new Date().toISOString(),
+      systemName: state.systemName,
+      alters: state.alters,
+      notes: state.notes,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${state.systemName.replace(/\s+/g,'-').toLowerCase()}-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-function renderSectionHeader(label, color) {
-  return h('div', {className:'section-header'}, [
-    h('div', {className:'section-line-l', style:{background:`linear-gradient(90deg,${color}55,transparent)`}}),
-    h('span', {className:'section-label', style:{color}},[label]),
-    h('div', {className:'section-line-r', style:{background:`linear-gradient(90deg,transparent,${color}55)`}}),
-  ]);
-}
+  function doImport() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (!data.alters || !Array.isArray(data.alters)) {
+            alert('This file doesn\'t look like a valid system backup.');
+            return;
+          }
+          const choice = confirm(
+            `This will REPLACE all current data with the backup from ${data.exported ? new Date(data.exported).toLocaleDateString() : 'unknown date'}.\n\n` +
+            `It contains ${data.alters.length} alter(s) and ${(data.notes||[]).length} note(s).\n\n` +
+            `Your current data will be overwritten. Continue?`
+          );
+          if (!choice) return;
+          if (data.systemName) state.systemName = data.systemName;
+          state.alters = data.alters;
+          state.notes = data.notes || [];
+          state.selected = null;
+          save();
+          overlayEl.remove();
+          render();
+        } catch {
+          alert('Could not read that file. Make sure it\'s a valid system backup JSON.');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
 
-function renderField(label, value, editing, onInput, multiline, placeholder) {
-  const isEmpty = !value || value.trim() === '';
-  return h('div', {className:'field'}, [
-    h('label', {className:'field-label'}, [label]),
-    editing
-      ? (multiline
-          ? h('textarea', {className:'field-textarea', placeholder:placeholder||'', onInput: e => onInput(e.target.value), value:value||''}, [])
-          : h('input', {className:'field-input', type:'text', placeholder:placeholder||'', value:value||'', onInput: e => onInput(e.target.value)})
-        )
-      : h('p', {className:'field-value' + (isEmpty?' field-empty':'')}, [isEmpty ? 'Not filled in' : value])
-  ]);
-}
-// textarea value workaround
-function setTextareaValue(el, val) { if (el && el.tagName === 'TEXTAREA') el.value = val || ''; }
+  function doMerge() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (!data.alters || !Array.isArray(data.alters)) {
+            alert('This file doesn\'t look like a valid system backup.');
+            return;
+          }
+          // Merge: add alters whose IDs don't already exist
+          const existingIds = new Set(state.alters.map(a => a.id));
+          const newAlters = data.alters.filter(a => !existingIds.has(a.id));
+          const existingNoteIds = new Set(state.notes.map(n => n.id));
+          const newNotes = (data.notes||[]).filter(n => !existingNoteIds.has(n.id));
+          state.alters = [...state.alters, ...newAlters];
+          state.notes = [...state.notes, ...newNotes];
+          save();
+          overlayEl.remove();
+          alert(`Merged in ${newAlters.length} new alter(s) and ${newNotes.length} new note(s).`);
+          render();
+        } catch {
+          alert('Could not read that file.');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
 
-function renderToggle(checked, onChange, color) {
-  const track = h('div', {
-    className:'toggle-track',
-    style:{background: checked ? color : 'var(--border)', cursor:'pointer'},
-    onClick: () => onChange(!checked)
-  }, [
-    h('div', {className:'toggle-thumb', style:{left: checked ? '22px' : '3px'}})
-  ]);
-  return track;
-}
-
-function renderCollapsible(labelText, color, defaultOpen, renderContent, sectionKey) {
-  const isOpen = state.openSections[sectionKey] !== undefined ? state.openSections[sectionKey] : defaultOpen;
-  const arrow = h('span', {className:'collapsible-arrow' + (isOpen?' open':'')}, ['▾']);
-  const content = h('div', {className:'collapsible-content', style:{display: isOpen?'block':'none'}});
-  if (isOpen) content.appendChild(renderContent());
-
-  const btn = h('button', {
-    className:'collapsible-btn' + (isOpen?' open':''),
-    style:{border:'none'},
-    onClick: () => {
-      state.openSections[sectionKey] = !isOpen;
-      render();
-    }
-  }, [
-    h('span', {className:'collapsible-label', style:{color}}, [labelText]),
-    arrow
-  ]);
-
-  const wrapper = h('div', {className:'collapsible', style:{border:`1px solid ${color}2e`}}, [btn, content]);
-  return wrapper;
-}
-
-// ─── Password Modal ──────────────────────────────────────────────────────────
-function renderPasswordModal(onSuccess, onCancel) {
-  let inputEl;
-  const errMsg = h('p', {style:{color:'#f87171',fontSize:'12px',marginBottom:'14px',display:'none'}}, ['Incorrect password']);
-
-  const attempt = () => {
-    if (inputEl.value === EDIT_PASSWORD) { onSuccess(); }
-    else { errMsg.style.display='block'; inputEl.value=''; inputEl.focus(); }
-  };
-
-  inputEl = h('input', {
-    type:'password', className:'field-input', placeholder:'Password',
-    style:{marginBottom:'18px'},
-    onKeydown: e => { if (e.key==='Enter') attempt(); }
-  });
-
-  const box = h('div', {className:'modal-box'}, [
-    h('div', {style:{fontSize:'30px',textAlign:'center',marginBottom:'8px'}}, ['🔒']),
-    h('h3', {className:'modal-title'}, ['Edit Mode']),
-    h('p', {className:'modal-sub'}, ['System password required']),
-    inputEl, errMsg,
-    h('div', {style:{display:'flex',gap:'10px'}}, [
-      h('button', {className:'btn-ghost', style:{flex:'1',padding:'10px'}, onClick:onCancel}, ['Cancel']),
-      h('button', {className:'btn-purple', style:{flex:'1',padding:'10px'}, onClick:attempt}, ['Enter']),
+  const box = h('div', {className:'io-box'}, [
+    h('div', {style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px'}}, [
+      h('h3', {style:{color:'var(--text)',fontFamily:'var(--display-font)',fontSize:'22px'}}, ['💾 Import / Export']),
+      h('button', {style:{background:'transparent',border:'none',color:'var(--muted)',fontSize:'22px',lineHeight:'1',padding:'0',cursor:'pointer'}, onClick:()=>overlayEl.remove()}, ['×']),
     ]),
-    h('p', {style:{color:'var(--border)',fontSize:'11px',textAlign:'center',marginTop:'16px'}}, ['Default: system2024']),
+    h('p', {style:{color:'var(--muted)',fontSize:'12px',lineHeight:'1.65',marginBottom:'24px'}}, [
+      'Your data lives in this browser. Use Export regularly to keep a backup, and Import to restore it on a new device or browser.'
+    ]),
+
+    // Export
+    h('button', {className:'io-btn', onClick:doExport}, [
+      h('span', {className:'io-btn-icon'}, ['📤']),
+      h('div', {}, [
+        h('div', {className:'io-btn-title'}, ['Export backup']),
+        h('div', {className:'io-btn-desc'}, ['Download all alters, notes, and your system name as a .json file']),
+      ]),
+    ]),
+
+    // Import (replace)
+    h('button', {className:'io-btn', onClick:doImport}, [
+      h('span', {className:'io-btn-icon'}, ['📥']),
+      h('div', {}, [
+        h('div', {className:'io-btn-title'}, ['Import backup (replace)']),
+        h('div', {className:'io-btn-desc'}, ['Load a backup file — replaces all current data']),
+      ]),
+    ]),
+
+    // Merge
+    h('button', {className:'io-btn', onClick:doMerge}, [
+      h('span', {className:'io-btn-icon'}, ['🔀']),
+      h('div', {}, [
+        h('div', {className:'io-btn-title'}, ['Merge from backup']),
+        h('div', {className:'io-btn-desc'}, ['Add alters from a backup without overwriting existing ones']),
+      ]),
+    ]),
+
+    h('div', {className:'io-warning'}, [
+      '⚠ Backup files contain all profile data including sensitive fields. Store them somewhere safe and private.'
+    ]),
   ]);
 
-  const overlay = h('div', {className:'modal-overlay'}, [box]);
-  setTimeout(() => inputEl.focus(), 50);
-  return overlay;
+  const overlayEl = h('div', {className:'modal-overlay', style:{zIndex:'9997'}}, [box]);
+  return overlayEl;
 }
 
-// ─── Settings Panel ──────────────────────────────────────────────────────────
+// ─── Settings Panel ───────────────────────────────────────────────────────────
 function renderSettingsPanel() {
   let draft = {...state.settings};
 
   function buildPanel() {
     const previewBg = BG_PRESETS[draft.bgPreset] || BG_PRESETS[0];
     const previewText = TEXT_PRESETS[draft.textPreset]?.value || '#e8e0f8';
-    const previewFont = draft.dyslexiaFont ? "'OpenDyslexic','Comic Sans MS',cursive" : "'DM Sans',sans-serif";
-    const previewDisplayFont = draft.dyslexiaFont ? "'OpenDyslexic','Comic Sans MS',cursive" : "'Playfair Display',serif";
+    const previewFontDef = DYSLEXIA_FONTS[draft.dyslexiaFont] || DYSLEXIA_FONTS[0];
 
-    // BG presets
     const bgGrid = h('div', {className:'bg-grid'}, BG_PRESETS.map((p, i) =>
       h('button', {
         className:'bg-preset-btn',
@@ -396,11 +409,10 @@ function renderSettingsPanel() {
           h('div', {style:{width:'12px',height:'12px',borderRadius:'3px',background:p.surface,border:`1px solid ${p.border}`}}),
           h('div', {style:{width:'12px',height:'12px',borderRadius:'3px',background:p.muted}}),
         ]),
-        h('span', {style:{color:previewText,fontSize:'10px',opacity:'0.8',fontFamily:previewFont}}, [p.label]),
+        h('span', {style:{color:previewText,fontSize:'10px',opacity:'0.8',fontFamily:previewFontDef.fontFamily}}, [p.label]),
       ])
     ));
 
-    // Text presets
     const textRow = h('div', {className:'text-presets'}, TEXT_PRESETS.map((p, i) =>
       h('button', {
         className:'text-preset-btn',
@@ -408,49 +420,44 @@ function renderSettingsPanel() {
         onClick: () => { draft.textPreset=i; rebuildPanel(); }
       }, [
         h('div', {className:'color-dot', style:{background:p.value}}),
-        h('span', {style:{color:p.value,fontSize:'11px',fontFamily:previewFont,whiteSpace:'nowrap'}}, [p.label]),
+        h('span', {style:{color:p.value,fontSize:'11px',fontFamily:previewFontDef.fontFamily,whiteSpace:'nowrap'}}, [p.label]),
       ])
     ));
 
-    // Dyslexia toggle
-    const toggleTrack = renderToggle(draft.dyslexiaFont, (v) => { draft.dyslexiaFont=v; rebuildPanel(); }, '#9333ea');
-    const dyslexiaPreview = draft.dyslexiaFont
-      ? h('p', {style:{fontFamily:"'OpenDyslexic','Comic Sans MS',cursive",color:'var(--text)',fontSize:'13px',margin:'8px 0 0',lineHeight:'1.7',borderTop:'1px solid var(--border)',paddingTop:'10px'}},
-          ['Preview: The quick brown fox jumps over the lazy dog. Each letter has a weighted bottom to help with orientation.'])
-      : null;
-
-    const dyslexiaRow = h('div', {style:{background:'rgba(255,255,255,0.03)',borderRadius:'12px',padding:'16px 18px',marginBottom:'28px'}}, [
-      h('div', {style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom: draft.dyslexiaFont?'0':'0'}}, [
-        h('div', {}, [
-          h('p', {style:{color:'var(--text)',fontSize:'14px',fontWeight:'600',marginBottom:'3px'}}, ['Dyslexia-friendly font']),
-          h('p', {style:{color:'var(--muted)',fontSize:'12px'}}, ['Switches to OpenDyslexic for easier reading']),
-        ]),
-        h('div', {style:{marginLeft:'16px'}}, [toggleTrack]),
-      ]),
-      dyslexiaPreview,
+    // Font options
+    const fontOptions = h('div', {style:{marginBottom:'24px'}}, [
+      h('label', {className:'settings-label'}, ['Accessible Font']),
+      ...DYSLEXIA_FONTS.map(f =>
+        h('div', {
+          className:'font-option' + (draft.dyslexiaFont===f.id?' selected':''),
+          onClick: () => { draft.dyslexiaFont=f.id; rebuildPanel(); }
+        }, [
+          h('div', {className:'font-option-name'}, [f.name]),
+          h('div', {className:'font-option-desc'}, [f.desc]),
+          h('div', {className:'font-option-preview', style:{fontFamily:f.fontFamily}},
+            ['The quick brown fox jumps over the lazy dog']),
+        ])
+      ),
     ]);
 
-    // Preview strip
     const previewStrip = h('div', {style:{background:previewBg.bg,border:`1px solid ${previewBg.border}`,borderRadius:'12px',padding:'14px 18px',marginBottom:'24px'}}, [
-      h('p', {style:{color:previewBg.muted,fontSize:'9px',fontFamily:previewFont,fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'6px'}}, ['Live Preview']),
-      h('p', {style:{color:previewText,fontFamily:previewDisplayFont,fontSize:'18px',marginBottom:'4px',fontWeight:'700'}}, ['Alter Name']),
-      h('p', {style:{color:previewBg.muted,fontFamily:previewFont,fontSize:'12px'}}, ['they/them · Host']),
+      h('p', {style:{color:previewBg.muted,fontSize:'9px',fontFamily:previewFontDef.fontFamily,fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'6px'}}, ['Live Preview']),
+      h('p', {style:{color:previewText,fontFamily:previewFontDef.displayFamily,fontSize:'18px',marginBottom:'4px',fontWeight:'700'}}, ['Alter Name']),
+      h('p', {style:{color:previewBg.muted,fontFamily:previewFontDef.fontFamily,fontSize:'12px'}}, ['they/them · Host']),
     ]);
-
-    const infoBox = h('p', {style:{color:'var(--muted)',fontSize:'12px',lineHeight:'1.6',background:'rgba(255,255,255,0.04)',borderRadius:'8px',padding:'10px 14px',marginBottom:'24px'}},
-      ['These settings are saved to this device/browser. Each person viewing the app can set their own preferences independently.']);
 
     return h('div', {className:'settings-box'}, [
       h('div', {style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'24px'}}, [
         h('h3', {style:{color:'var(--text)',fontFamily:'var(--display-font)',fontSize:'22px'}}, ['⚙ Appearance Settings']),
-        h('button', {style:{background:'transparent',border:'none',color:'var(--muted)',fontSize:'22px',lineHeight:'1',padding:'0',cursor:'pointer'}, onClick:()=>{ overlayEl.remove(); }}, ['×']),
+        h('button', {style:{background:'transparent',border:'none',color:'var(--muted)',fontSize:'22px',lineHeight:'1',padding:'0',cursor:'pointer'}, onClick:()=>overlayEl.remove()}, ['×']),
       ]),
-      infoBox,
+      h('p', {style:{color:'var(--muted)',fontSize:'12px',lineHeight:'1.6',background:'rgba(255,255,255,0.04)',borderRadius:'8px',padding:'10px 14px',marginBottom:'24px'}},
+        ['These settings are saved to this device/browser. Each person viewing the app can set their own preferences independently.']),
       h('label', {className:'settings-label'}, ['Background Theme']),
       h('div', {style:{marginBottom:'24px'}}, [bgGrid]),
       h('label', {className:'settings-label'}, ['Text Color']),
       h('div', {style:{marginBottom:'24px'}}, [textRow]),
-      dyslexiaRow,
+      fontOptions,
       previewStrip,
       h('div', {style:{display:'flex',gap:'10px'}}, [
         h('button', {
@@ -470,22 +477,90 @@ function renderSettingsPanel() {
 
   let panelEl = buildPanel();
   const overlayEl = h('div', {className:'modal-overlay', style:{zIndex:'9998'}}, [panelEl]);
-
   function rebuildPanel() {
     const newPanel = buildPanel();
     overlayEl.replaceChild(newPanel, panelEl);
     panelEl = newPanel;
   }
-
   return overlayEl;
 }
 
-// ─── Alter Card ──────────────────────────────────────────────────────────────
+// ─── Password Modal ───────────────────────────────────────────────────────────
+function renderPasswordModal(onSuccess, onCancel) {
+  let inputEl;
+  const errMsg = h('p', {style:{color:'#f87171',fontSize:'12px',marginBottom:'14px',display:'none'}}, ['Incorrect password']);
+  const attempt = () => {
+    if (inputEl.value === EDIT_PASSWORD) { onSuccess(); }
+    else { errMsg.style.display='block'; inputEl.value=''; inputEl.focus(); }
+  };
+  inputEl = h('input', {type:'password', className:'field-input', placeholder:'Password', style:{marginBottom:'18px'}, onKeydown: e => { if(e.key==='Enter') attempt(); }});
+  const box = h('div', {className:'modal-box'}, [
+    h('div', {style:{fontSize:'30px',textAlign:'center',marginBottom:'8px'}}, ['🔒']),
+    h('h3', {className:'modal-title'}, ['Edit Mode']),
+    h('p', {className:'modal-sub'}, ['System password required']),
+    inputEl, errMsg,
+    h('div', {style:{display:'flex',gap:'10px'}}, [
+      h('button', {className:'btn-ghost', style:{flex:'1',padding:'10px'}, onClick:onCancel}, ['Cancel']),
+      h('button', {className:'btn-purple', style:{flex:'1',padding:'10px'}, onClick:attempt}, ['Enter']),
+    ]),
+    h('p', {style:{color:'var(--border)',fontSize:'11px',textAlign:'center',marginTop:'16px'}}, ['Default: system2024']),
+  ]);
+  const overlay = h('div', {className:'modal-overlay'}, [box]);
+  setTimeout(() => inputEl.focus(), 50);
+  return overlay;
+}
+
+// ─── Section header ───────────────────────────────────────────────────────────
+function renderSectionHeader(label, color) {
+  return h('div', {className:'section-header'}, [
+    h('div', {className:'section-line-l', style:{background:`linear-gradient(90deg,${color}55,transparent)`}}),
+    h('span', {className:'section-label', style:{color}},[label]),
+    h('div', {className:'section-line-r', style:{background:`linear-gradient(90deg,transparent,${color}55)`}}),
+  ]);
+}
+
+// ─── Field ────────────────────────────────────────────────────────────────────
+function renderField(label, value, editing, onInput, multiline, placeholder) {
+  const isEmpty = !value || value.trim() === '';
+  const inputEl = editing
+    ? (multiline
+        ? h('textarea', {className:'field-textarea', placeholder:placeholder||'', onInput: e => onInput(e.target.value)})
+        : h('input', {className:'field-input', type:'text', placeholder:placeholder||'', value:value||'', onInput: e => onInput(e.target.value)})
+      )
+    : h('p', {className:'field-value' + (isEmpty?' field-empty':'')}, [isEmpty ? 'Not filled in' : value]);
+  const el = h('div', {className:'field'}, [h('label', {className:'field-label'}, [label]), inputEl]);
+  if (editing && multiline) { const ta = el.querySelector('textarea'); if(ta) ta.value = value||''; }
+  return el;
+}
+
+// ─── Collapsible ──────────────────────────────────────────────────────────────
+function renderCollapsible(labelText, color, defaultOpen, renderContent, sectionKey) {
+  const isOpen = state.openSections[sectionKey] !== undefined ? state.openSections[sectionKey] : defaultOpen;
+  const content = h('div', {className:'collapsible-content', style:{display:isOpen?'block':'none'}});
+  if (isOpen) content.appendChild(renderContent());
+  const btn = h('button', {
+    className:'collapsible-btn'+(isOpen?' open':''), style:{border:'none'},
+    onClick: () => { state.openSections[sectionKey]=!isOpen; render(); }
+  }, [
+    h('span', {className:'collapsible-label', style:{color}}, [labelText]),
+    h('span', {className:'collapsible-arrow'+(isOpen?' open':''), style:{color}}, ['▾']),
+  ]);
+  return h('div', {className:'collapsible', style:{border:`1px solid ${color}2e`}}, [btn, content]);
+}
+
+// ─── Toggle ───────────────────────────────────────────────────────────────────
+function renderToggle(checked, onChange, color) {
+  return h('div', {
+    className:'toggle-track', style:{background:checked?color:'var(--border)',cursor:'pointer'},
+    onClick: () => onChange(!checked)
+  }, [h('div', {className:'toggle-thumb', style:{left:checked?'22px':'3px'}})]);
+}
+
+// ─── Alter Card ───────────────────────────────────────────────────────────────
 function renderAlterCard(alter) {
   const card = h('div', {
     className:'alter-card',
-    style:{borderColor:'var(--border)'},
-    onClick: () => { state.selected = alter; state.kinkVisible=false; state.openSections={}; render(); }
+    onClick: () => { state.selected=alter; state.kinkVisible=false; state.openSections={}; render(); }
   }, [
     alter.isFronting ? h('div', {className:'card-fronting-badge', style:{background:alter.color}}, ['FRONTING']) : null,
     state.editMode ? h('button', {className:'btn-danger', onClick: e => {
@@ -497,42 +572,31 @@ function renderAlterCard(alter) {
     }}, ['×']) : null,
     h('span', {className:'card-emoji', style:{filter:`drop-shadow(0 0 12px ${alter.color}77)`}}, [alter.emoji]),
     h('h3', {className:'card-name'}, [alter.name]),
-    h('p', {className:'card-pronouns', style:{color:alter.color}}, [alter.pronouns || '']),
+    h('p', {className:'card-pronouns', style:{color:alter.color}}, [alter.pronouns||'']),
     alter.role ? h('span', {className:'card-role'}, [alter.role]) : null,
   ]);
-
-  card.addEventListener('mouseenter', () => { card.style.borderColor = alter.color; card.style.boxShadow = `0 10px 36px ${alter.color}28`; });
-  card.addEventListener('mouseleave', () => { card.style.borderColor = 'var(--border)'; card.style.boxShadow = ''; });
+  card.addEventListener('mouseenter', () => { card.style.borderColor=alter.color; card.style.boxShadow=`0 10px 36px ${alter.color}28`; });
+  card.addEventListener('mouseleave', () => { card.style.borderColor='var(--border)'; card.style.boxShadow=''; });
   return card;
 }
 
-// ─── Add Alter Form ──────────────────────────────────────────────────────────
+// ─── Add Alter Form ───────────────────────────────────────────────────────────
 function renderAddForm() {
   let draft = {...EMPTY_ALTER, id:uid()};
-
-  const nameEl = h('input', {className:'field-input', placeholder:'Name', onInput: e=>draft.name=e.target.value});
-  const pronounsEl = h('input', {className:'field-input', placeholder:'Pronouns', onInput: e=>draft.pronouns=e.target.value});
-  const roleEl = h('input', {className:'field-input', placeholder:'Role', onInput: e=>draft.role=e.target.value});
-  const ageEl = h('input', {className:'field-input', placeholder:'e.g. 8, teen, timeless…', onInput: e=>draft.age=e.target.value});
-
-  const paletteEl = h('div', {className:'palette'}, PALETTE.map(c => {
+  const nameEl = h('input', {className:'field-input', placeholder:'Name', onInput:e=>draft.name=e.target.value});
+  const pronounsEl = h('input', {className:'field-input', placeholder:'Pronouns', onInput:e=>draft.pronouns=e.target.value});
+  const roleEl = h('input', {className:'field-input', placeholder:'Role', onInput:e=>draft.role=e.target.value});
+  const ageEl = h('input', {className:'field-input', placeholder:'e.g. 8, teen, timeless…', onInput:e=>draft.age=e.target.value});
+  const paletteEl = h('div', {className:'palette', id:'add-palette'}, PALETTE.map(c => {
     const dot = h('div', {className:'palette-dot', style:{background:c,borderColor:draft.color===c?'#fff':'transparent'}, onClick:()=>{
-      draft.color=c;
-      document.querySelectorAll('#add-palette .palette-dot').forEach((d,i)=>d.style.borderColor=PALETTE[i]===c?'#fff':'transparent');
-    }});
-    return dot;
+      draft.color=c; document.querySelectorAll('#add-palette .palette-dot').forEach((d,i)=>d.style.borderColor=PALETTE[i]===c?'#fff':'transparent');
+    }}); return dot;
   }));
-  paletteEl.id='add-palette';
-
-  const emojiPickerEl = h('div', {className:'emoji-picker'}, EMOJIS.map(em => {
+  const emojiPickerEl = h('div', {className:'emoji-picker', id:'add-emoji'}, EMOJIS.map(em => {
     const btn = h('button', {className:'emoji-btn'+(draft.emoji===em?' selected':''), onClick:()=>{
-      draft.emoji=em;
-      document.querySelectorAll('#add-emoji .emoji-btn').forEach(b=>b.classList.toggle('selected', b.textContent===em));
-    }}, [em]);
-    return btn;
+      draft.emoji=em; document.querySelectorAll('#add-emoji .emoji-btn').forEach(b=>b.classList.toggle('selected',b.textContent===em));
+    }}, [em]); return btn;
   }));
-  emojiPickerEl.id='add-emoji';
-
   return h('div', {className:'add-form'}, [
     h('h3', {style:{color:'var(--text)',fontFamily:'var(--display-font)',fontSize:'21px',marginBottom:'18px'}}, ['New Alter']),
     h('div', {className:'two-col'}, [
@@ -545,18 +609,13 @@ function renderAddForm() {
     h('div', {style:{marginBottom:'18px'}}, [h('p',{className:'field-label'},['Emoji']), emojiPickerEl]),
     h('p', {style:{color:'var(--muted)',fontSize:'11px',fontStyle:'italic',marginBottom:'16px',opacity:'0.7'}}, ['You can fill in all other fields after adding.']),
     h('div', {style:{display:'flex',gap:'9px'}}, [
-      h('button', {className:'btn-purple', onClick:()=>{
-        if (!draft.name.trim()) return;
-        state.alters.push({...draft});
-        state.showAddForm=false;
-        save(); render();
-      }}, ['Add to System']),
+      h('button', {className:'btn-purple', onClick:()=>{ if(!draft.name.trim())return; state.alters.push({...draft}); state.showAddForm=false; save(); render(); }}, ['Add to System']),
       h('button', {className:'btn-cancel', onClick:()=>{state.showAddForm=false;render();}}, ['Cancel']),
     ]),
   ]);
 }
 
-// ─── Profile Detail ──────────────────────────────────────────────────────────
+// ─── Profile Detail ───────────────────────────────────────────────────────────
 function renderProfile(alter) {
   let editing = false;
   let draft = {...alter};
@@ -564,147 +623,108 @@ function renderProfile(alter) {
   let noteText = '';
   const c = alter.color;
 
+  function field(label, fieldName, multiline, placeholder) {
+    const val = editing ? (draft[fieldName]||'') : (alter[fieldName]||'');
+    return renderField(label, val, editing, v => { draft[fieldName]=v; }, multiline, placeholder);
+  }
+
   function buildProfile() {
-    const set = (field, val) => { draft[field] = val; };
+    // Emoji picker or display
+    const emojiEl = editing
+      ? h('div', {className:'emoji-picker', id:'hero-emoji', style:{maxWidth:'240px',marginBottom:'6px'}}, EMOJIS.map(em => {
+          return h('button', {className:'emoji-btn'+(draft.emoji===em?' selected':''), onClick:()=>{
+            draft.emoji=em; document.querySelectorAll('#hero-emoji .emoji-btn').forEach(b=>b.classList.toggle('selected',b.textContent===em));
+          }}, [em]);
+        }))
+      : h('div', {style:{fontSize:'60px',lineHeight:'1',filter:`drop-shadow(0 0 20px ${c}99)`}}, [alter.emoji]);
 
-    function field(label, fieldName, multiline, placeholder) {
-      const val = editing ? (draft[fieldName]||'') : (alter[fieldName]||'');
-      const el = renderField(label, val, editing, v => set(fieldName, v), multiline, placeholder);
-      // set textarea value after DOM insertion
-      if (editing && multiline) {
-        const ta = el.querySelector('textarea');
-        if (ta) ta.value = draft[fieldName]||'';
-      }
-      return el;
-    }
+    const nameEl = editing
+      ? h('input', {className:'edit-inline', style:{borderBottomColor:c,fontFamily:'var(--display-font)'}, value:draft.name, onInput:e=>draft.name=e.target.value})
+      : h('h2', {className:'profile-name'}, [alter.name]);
 
-    // Hero
-    let emojiEl;
-    if (editing) {
-      emojiEl = h('div', {className:'emoji-picker', style:{maxWidth:'240px',marginBottom:'6px'}}, EMOJIS.map(em => {
-        const btn = h('button', {className:'emoji-btn'+(draft.emoji===em?' selected':''), onClick:()=>{
-          draft.emoji=em;
-          document.querySelectorAll('#hero-emoji .emoji-btn').forEach(b=>b.classList.toggle('selected',b.textContent===em));
-        }}, [em]);
-        return btn;
-      }));
-      emojiEl.id='hero-emoji';
-    } else {
-      emojiEl = h('div', {style:{fontSize:'60px',lineHeight:'1',filter:`drop-shadow(0 0 20px ${c}99)`}}, [alter.emoji]);
-    }
+    const pronounsEl = editing
+      ? h('input', {className:'edit-inline-sm', style:{borderBottomColor:`${c}55`,color:c}, value:draft.pronouns, onInput:e=>draft.pronouns=e.target.value})
+      : h('p', {className:'profile-pronouns', style:{color:c}}, [alter.pronouns||'']);
 
-    let nameEl, pronounsEl;
-    if (editing) {
-      nameEl = h('input', {className:'edit-inline', style:{borderBottomColor:c,fontFamily:'var(--display-font)'}, value:draft.name, onInput:e=>draft.name=e.target.value});
-      pronounsEl = h('input', {className:'edit-inline-sm', style:{borderBottomColor:`${c}55`,color:c}, value:draft.pronouns, onInput:e=>draft.pronouns=e.target.value});
-    } else {
-      nameEl = h('h2', {className:'profile-name'}, [alter.name]);
-      pronounsEl = h('p', {className:'profile-pronouns', style:{color:c}}, [alter.pronouns||'']);
-    }
+    const statusEl = editing
+      ? h('div', {style:{display:'flex',alignItems:'center',gap:'8px',marginTop:'6px',marginBottom:'14px'}}, [
+          h('span', {style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase'}}, ['Fronting']),
+          renderToggle(draft.isFronting, v=>{draft.isFronting=v;rebuildProfile();}, c),
+        ])
+      : (alter.isFronting ? h('span', {className:'fronting-tag', style:{background:c}}, ['FRONTING']) : h('span',{},[]));
 
-    let statusEl;
-    if (editing) {
-      statusEl = h('div', {style:{display:'flex',alignItems:'center',gap:'8px',marginTop:'6px',marginBottom:'14px'}}, [
-        h('span', {style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase'}}, ['Fronting']),
-        renderToggle(draft.isFronting, v=>{draft.isFronting=v; heroRebuild();}, c),
-      ]);
-    } else {
-      statusEl = alter.isFronting ? h('span', {className:'fronting-tag', style:{background:c}}, ['FRONTING']) : h('span',{},[]);
-    }
+    const colorPickerEl = editing ? h('div', {style:{marginTop:'4px'}}, [
+      h('p', {style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'7px'}}, ['Accent color']),
+      h('div', {className:'palette', id:'hero-palette'}, PALETTE.map(col => {
+        const dot = h('div', {className:'palette-dot', style:{background:col,borderColor:draft.color===col?'#fff':'transparent'}, onClick:()=>{
+          draft.color=col; document.querySelectorAll('#hero-palette .palette-dot').forEach((d,i)=>d.style.borderColor=PALETTE[i]===col?'#fff':'transparent');
+        }}); return dot;
+      })),
+    ]) : null;
 
-    let colorPickerEl = null;
-    if (editing) {
-      colorPickerEl = h('div', {style:{marginTop:'4px'}}, [
-        h('p', {style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'7px'}}, ['Accent color']),
-        h('div', {className:'palette', id:'hero-palette'}, PALETTE.map(col => {
-          const dot = h('div', {className:'palette-dot', style:{background:col,borderColor:draft.color===col?'#fff':'transparent'}, onClick:()=>{
-            draft.color=col;
-            document.querySelectorAll('#hero-palette .palette-dot').forEach((d,i)=>d.style.borderColor=PALETTE[i]===col?'#fff':'transparent');
-          }});
-          return dot;
-        })),
-      ]);
-    }
-
-    const metaEl = h('div', {className:'hero-meta'}, [nameEl, pronounsEl, statusEl, colorPickerEl]);
-
-    let actionsEl;
-    if (state.editMode) {
-      if (!editing) {
-        actionsEl = h('div', {className:'hero-actions'}, [
-          h('button', {style:{padding:'8px 18px',background:`linear-gradient(135deg,${c}bb,${c})`,border:'none',borderRadius:'8px',color:'#fff',fontSize:'13px',fontWeight:'700'}, onClick:()=>{editing=true;rebuildProfile();}}, ['Edit']),
-        ]);
-      } else {
-        actionsEl = h('div', {className:'hero-actions'}, [
-          h('button', {className:'btn-save', onClick:()=>{
-            state.alters = state.alters.map(a => a.id===draft.id ? {...draft} : a);
-            state.selected = {...draft};
-            save();
-            editing=false;
-            alter = {...draft};
-            rebuildProfile();
-          }}, ['Save']),
-          h('button', {className:'btn-cancel', onClick:()=>{draft={...alter};editing=false;rebuildProfile();}}, ['Cancel']),
-        ]);
-      }
-    } else {
-      actionsEl = null;
-    }
+    const actionsEl = state.editMode
+      ? (!editing
+          ? h('div', {className:'hero-actions'}, [
+              h('button', {style:{padding:'8px 18px',background:`linear-gradient(135deg,${c}bb,${c})`,border:'none',borderRadius:'8px',color:'#fff',fontSize:'13px',fontWeight:'700'}, onClick:()=>{editing=true;rebuildProfile();}}, ['Edit']),
+            ])
+          : h('div', {className:'hero-actions'}, [
+              h('button', {className:'btn-save', onClick:()=>{
+                state.alters=state.alters.map(a=>a.id===draft.id?{...draft}:a);
+                state.selected={...draft}; save(); editing=false; alter={...draft}; rebuildProfile();
+              }}, ['Save']),
+              h('button', {className:'btn-cancel', onClick:()=>{draft={...alter};editing=false;rebuildProfile();}}, ['Cancel']),
+            ])
+        )
+      : null;
 
     const heroGlow = h('div', {style:{position:'absolute',inset:'0',background:`radial-gradient(ellipse at 72% 18%, ${c}18 0%, transparent 62%)`,pointerEvents:'none'}});
     const hero = h('div', {className:'profile-hero', style:{border:`1px solid ${c}44`}}, [
       heroGlow,
-      h('div', {className:'hero-row'}, [emojiEl, metaEl, actionsEl]),
+      h('div', {className:'hero-row'}, [
+        emojiEl,
+        h('div', {className:'hero-meta'}, [nameEl, pronounsEl, statusEl, colorPickerEl]),
+        actionsEl,
+      ]),
     ]);
 
     // Notes
-    const profileNotes = state.notes.filter(n => n.alterId === alter.id);
-    const notesList = profileNotes.length > 0
-      ? h('div', {style:{marginTop:'22px'}}, [
-          h('p', {style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'12px'}}, ['Notes from friends']),
-          h('div', {style:{display:'flex',flexDirection:'column',gap:'9px'}},
-            [...profileNotes].reverse().map(n =>
-              h('div', {className:'note-item', style:{borderLeft:`3px solid ${c}`}}, [
-                h('div', {style:{display:'flex',justifyContent:'space-between',marginBottom:'4px'}}, [
-                  h('span', {className:'note-author', style:{color:c}}, [n.author]),
-                  h('span', {className:'note-date'}, [new Date(n.ts).toLocaleDateString()]),
-                ]),
-                h('p', {className:'note-text'}, [n.text]),
-              ])
-            )
-          )
-        ])
-      : null;
-
+    const profileNotes = state.notes.filter(n=>n.alterId===alter.id);
     const authorInput = h('input', {className:'field-input', placeholder:'Your name (optional)', style:{marginBottom:'9px'}, onInput:e=>noteAuthor=e.target.value});
     const textInput = h('textarea', {className:'field-textarea', placeholder:`Write something for ${alter.name}…`, style:{marginBottom:'11px'}, onInput:e=>noteText=e.target.value});
 
     const notesSection = h('div', {className:'notes-section'}, [
       renderSectionHeader(`Leave a note for ${alter.name}`, c),
-      authorInput,
-      textInput,
+      authorInput, textInput,
       h('button', {style:{padding:'9px 20px',background:`linear-gradient(135deg,${c}bb,${c})`,border:'none',borderRadius:'8px',color:'#fff',fontSize:'13px',fontWeight:'700'}, onClick:()=>{
-        if (!textInput.value.trim()) return;
+        if(!textInput.value.trim())return;
         state.notes.push({id:uid(),alterId:alter.id,author:authorInput.value.trim()||'Anonymous',text:textInput.value.trim(),ts:Date.now()});
         save(); rebuildProfile();
       }}, ['Leave note ✉️']),
-      notesList,
+      profileNotes.length > 0 ? h('div', {style:{marginTop:'22px'}}, [
+        h('p', {style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'12px'}}, ['Notes from friends']),
+        h('div', {style:{display:'flex',flexDirection:'column',gap:'9px'}},
+          [...profileNotes].reverse().map(n =>
+            h('div', {className:'note-item', style:{borderLeft:`3px solid ${c}`}}, [
+              h('div', {style:{display:'flex',justifyContent:'space-between',marginBottom:'4px'}}, [
+                h('span', {className:'note-author', style:{color:c}}, [n.author]),
+                h('span', {className:'note-date'}, [new Date(n.ts).toLocaleDateString()]),
+              ]),
+              h('p', {className:'note-text'}, [n.text]),
+            ])
+          )
+        ),
+      ]) : null,
     ]);
 
-    // Kink section
     const kinkSection = h('div', {className:'collapsible', style:{border:'1px solid #f472b625',marginBottom:'8px'}}, [
-      h('button', {
-        className:'collapsible-btn'+(state.kinkVisible?' open':''),
-        style:{border:'none'},
-        onClick:()=>{state.kinkVisible=!state.kinkVisible;rebuildProfile();}
-      }, [
+      h('button', {className:'collapsible-btn'+(state.kinkVisible?' open':''), style:{border:'none'}, onClick:()=>{state.kinkVisible=!state.kinkVisible;rebuildProfile();}}, [
         h('span', {className:'collapsible-label', style:{color:'#f472b6'}}, ['🔞 Kinks']),
         h('span', {className:'collapsible-arrow'+(state.kinkVisible?' open':''), style:{color:'#f472b6'}}, ['▾']),
       ]),
       state.kinkVisible ? h('div', {className:'collapsible-content'}, [field('Kinks','kinks',true)]) : null,
     ]);
 
-    const wrapper = h('div', {style:{maxWidth:'700px',margin:'0 auto'}}, [
+    return h('div', {style:{maxWidth:'700px',margin:'0 auto'}}, [
       h('button', {className:'profile-back', onClick:()=>{state.selected=null;render();}}, ['← Back to gallery']),
       hero,
       h('div', {className:'profile-main'}, [
@@ -729,34 +749,27 @@ function renderProfile(alter) {
         renderSectionHeader('Free Space', c),
         field('Fun facts / free space','freeSpace',true),
       ]),
-      // Sensitive sections
-      renderCollapsible('⚠ Personal problems / warnings','#f87171', state.editMode, ()=>field('Personal problems / warnings','personalProblems',true), 'problems'),
-      renderCollapsible('⚡ Possible triggers','#fbbf24', state.editMode, ()=>field('Possible triggers','triggers',true), 'triggers'),
-      renderCollapsible('— Dislikes / boundaries / pet-peeves','#94a3b8', state.editMode, ()=>field('Dislikes / boundaries / pet-peeves','dislikes',true), 'dislikes'),
-      renderCollapsible('🌿 Substances','#34d399', state.editMode, ()=>field('Substances','substances',true,'e.g. caffeine fine, alcohol complicated…'), 'substances'),
+      renderCollapsible('⚠ Personal problems / warnings','#f87171',state.editMode,()=>field('Personal problems / warnings','personalProblems',true),'problems'),
+      renderCollapsible('⚡ Possible triggers','#fbbf24',state.editMode,()=>field('Possible triggers','triggers',true),'triggers'),
+      renderCollapsible('— Dislikes / boundaries / pet-peeves','#94a3b8',state.editMode,()=>field('Dislikes / boundaries / pet-peeves','dislikes',true),'dislikes'),
+      renderCollapsible('🌿 Substances','#34d399',state.editMode,()=>field('Substances','substances',true,'e.g. caffeine fine, alcohol complicated…'),'substances'),
       kinkSection,
       notesSection,
     ]);
-
-    return wrapper;
   }
 
   let profileEl = buildProfile();
-
-  function heroRebuild() { rebuildProfile(); }
   function rebuildProfile() {
     const newEl = buildProfile();
     if (profileEl.parentNode) profileEl.parentNode.replaceChild(newEl, profileEl);
     profileEl = newEl;
   }
-
   return profileEl;
 }
 
-// ─── Gallery ─────────────────────────────────────────────────────────────────
+// ─── Gallery ──────────────────────────────────────────────────────────────────
 function renderGallery() {
-  const fronting = state.alters.filter(a => a.isFronting);
-
+  const fronting = state.alters.filter(a=>a.isFronting);
   const frontingBanner = fronting.length > 0
     ? h('div', {className:'fronting-banner'}, [
         h('div', {style:{display:'flex',alignItems:'center',gap:'6px',flexShrink:'0'}}, [
@@ -764,19 +777,13 @@ function renderGallery() {
           h('span', {className:'fronting-label'}, ['Currently fronting']),
         ]),
         h('div', {style:{display:'flex',gap:'7px',flexWrap:'wrap'}},
-          fronting.map(a => {
-            const chip = h('span', {
-              className:'fronting-chip',
-              style:{borderColor:`${a.color}30`,color:a.color},
-              onClick:()=>{state.selected=a;state.kinkVisible=false;state.openSections={};render();}
-            }, [h('span',{style:{fontSize:'14px'}},[a.emoji]), a.name]);
-            return chip;
-          })
+          fronting.map(a => h('span', {
+            className:'fronting-chip', style:{borderColor:`${a.color}30`,color:a.color},
+            onClick:()=>{state.selected=a;state.kinkVisible=false;state.openSections={};render();}
+          }, [h('span',{style:{fontSize:'14px'}},[a.emoji]), a.name]))
         ),
       ])
     : null;
-
-  const addForm = state.showAddForm && state.editMode ? renderAddForm() : null;
 
   const gallery = state.alters.length === 0
     ? h('div', {style:{textAlign:'center',padding:'80px 20px'}}, [
@@ -784,38 +791,36 @@ function renderGallery() {
       ])
     : h('div', {className:'gallery'}, state.alters.map(renderAlterCard));
 
-  return h('div', {}, [frontingBanner, addForm, gallery]);
+  return h('div', {}, [frontingBanner, state.showAddForm && state.editMode ? renderAddForm() : null, gallery]);
 }
 
-// ─── Header ──────────────────────────────────────────────────────────────────
+// ─── Header ───────────────────────────────────────────────────────────────────
 function renderHeader() {
   let nameDisplay;
   if (state.editMode && state.editingName) {
     const inp = h('input', {
       style:{background:'transparent',border:'none',borderBottom:'2px solid #9333ea',color:'var(--text)',fontSize:'21px',fontFamily:'var(--display-font)',padding:'0 0 2px',outline:'none',minWidth:'180px'},
-      value: state.systemName,
-      onInput: e => { state.systemName = e.target.value; },
-      onKeydown: e => { if(e.key==='Enter'){state.editingName=false;save();render();} }
+      value:state.systemName,
+      onInput:e=>{state.systemName=e.target.value;},
+      onKeydown:e=>{if(e.key==='Enter'){state.editingName=false;save();render();}}
     });
     nameDisplay = h('div', {style:{display:'flex',gap:'8px',alignItems:'center'}}, [
-      inp,
-      h('button', {style:{background:'#6d28d9',border:'none',borderRadius:'5px',color:'#fff',cursor:'pointer',padding:'4px 11px',fontSize:'11px',fontWeight:'700'}, onClick:()=>{state.editingName=false;save();render();}}, ['Save']),
+      inp, h('button', {style:{background:'#6d28d9',border:'none',borderRadius:'5px',color:'#fff',cursor:'pointer',padding:'4px 11px',fontSize:'11px',fontWeight:'700'},onClick:()=>{state.editingName=false;save();render();}}, ['Save']),
     ]);
     setTimeout(()=>inp.focus(),30);
   } else {
     nameDisplay = h('h1', {
-      className:'system-title',
-      style:{cursor:state.editMode?'pointer':'default'},
-      onClick:()=>{ if(state.editMode){state.editingName=true;render();} }
-    }, [
-      state.systemName,
-      state.editMode ? h('span',{style:{fontSize:'12px',color:'var(--muted)',marginLeft:'7px',opacity:'0.5'}},['✏️']) : null,
-    ]);
+      className:'system-title', style:{cursor:state.editMode?'pointer':'default'},
+      onClick:()=>{if(state.editMode){state.editingName=true;render();}}
+    }, [state.systemName, state.editMode?h('span',{style:{fontSize:'12px',color:'var(--muted)',marginLeft:'7px',opacity:'0.5'}},['✏️']):null]);
   }
 
-  const settingsBtn = h('button', {className:'btn-icon', title:'Appearance settings', onClick:()=>{
-    document.body.appendChild(renderSettingsPanel());
-  }}, ['⚙']);
+  const settingsBtn = h('button', {className:'btn-icon', title:'Appearance settings', onClick:()=>document.body.appendChild(renderSettingsPanel())}, ['⚙']);
+
+  // Import/Export button — only in edit mode
+  const ioBtn = state.editMode
+    ? h('button', {className:'btn-icon', title:'Import / Export data', style:{fontSize:'14px'}, onClick:()=>document.body.appendChild(renderIOPanel())}, ['💾'])
+    : null;
 
   const addBtn = state.editMode && !state.selected
     ? h('button', {className:'btn-purple', onClick:()=>{state.showAddForm=true;render();}}, ['+ Add Alter'])
@@ -824,41 +829,31 @@ function renderHeader() {
   const editBtn = h('button', {
     className:'btn-edit'+(state.editMode?' active':''),
     onClick:()=>{
-      if (state.editMode) { state.editMode=false; render(); }
+      if(state.editMode){state.editMode=false;render();}
       else {
-        const modal = renderPasswordModal(
-          ()=>{ state.editMode=true; modal.remove(); render(); },
-          ()=>{ modal.remove(); }
-        );
+        const modal = renderPasswordModal(()=>{state.editMode=true;modal.remove();render();},()=>modal.remove());
         document.body.appendChild(modal);
       }
     }
-  }, [state.editMode ? 'Exit Edit Mode' : 'Edit Mode']);
+  }, [state.editMode?'Exit Edit Mode':'Edit Mode']);
 
   return h('div', {className:'header'}, [
     h('div', {className:'header-inner'}, [
       h('div', {}, [nameDisplay, h('p',{className:'system-sub'},['System Profiles'])]),
-      h('div', {className:'header-btns'}, [settingsBtn, addBtn, editBtn]),
+      h('div', {className:'header-btns'}, [settingsBtn, ioBtn, addBtn, editBtn]),
     ])
   ]);
 }
 
-// ─── Main Render ─────────────────────────────────────────────────────────────
+// ─── Render ───────────────────────────────────────────────────────────────────
 function render() {
   applyTheme(state.settings);
   const app = document.getElementById('app');
   app.innerHTML = '';
-
-  const header = renderHeader();
-  const main = h('div', {className:'main'}, [
-    state.selected ? renderProfile(state.selected) : renderGallery()
-  ]);
-
-  app.appendChild(header);
-  app.appendChild(main);
+  app.appendChild(renderHeader());
+  app.appendChild(h('div', {className:'main'}, [state.selected ? renderProfile(state.selected) : renderGallery()]));
 }
 
-// ─── Init ────────────────────────────────────────────────────────────────────
 applyTheme(state.settings);
 render();
 </script>
