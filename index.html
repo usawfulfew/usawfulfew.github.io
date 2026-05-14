@@ -7,12 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
-  @font-face { font-family:'OpenDyslexic'; src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.woff') format('woff'); }
-  @font-face { font-family:'LexieReadable'; src:url('https://cdn.jsdelivr.net/gh/googlefonts/lexie-readable@main/fonts/LexieReadable-Regular.woff2') format('woff2'); }
+  @font-face{font-family:'OpenDyslexic';src:url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.woff') format('woff');}
+  @font-face{font-family:'LexieReadable';src:url('https://cdn.jsdelivr.net/gh/googlefonts/lexie-readable@main/fonts/LexieReadable-Regular.woff2') format('woff2');}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;}
   :root{--bg:#080614;--surface:#12101e;--border:#1a1730;--muted:#504876;--text:#e8e0f8;--font:'DM Sans',sans-serif;--display-font:'Playfair Display',serif;}
-  ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+  ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
   input,textarea{caret-color:#9333ea;font-family:var(--font);}
   input:focus,textarea:focus{border-color:#6d28d9!important;outline:none;}
   button{cursor:pointer;font-family:var(--font);}
@@ -31,24 +31,43 @@
   .btn-save{padding:8px 16px;background:linear-gradient(135deg,#065f46,#10b981);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;}
   .btn-cancel{padding:8px 14px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;}
   .btn-danger{position:absolute;top:8px;left:8px;background:#2a1a1a;border:1px solid #5a2020;border-radius:5px;color:#f87171;width:22px;height:22px;font-size:13px;display:flex;align-items:center;justify-content:center;padding:0;}
+  /* Gallery */
   .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:13px;}
   .alter-card{position:relative;border-radius:18px;background:var(--surface);border:1.5px solid var(--border);padding:24px 18px 18px;transition:all 0.22s;cursor:pointer;text-align:center;}
   .alter-card:hover{transform:translateY(-4px);}
   .card-fronting-badge{position:absolute;top:10px;right:10px;border-radius:20px;padding:2px 9px;font-size:9px;font-weight:700;color:#fff;letter-spacing:0.07em;}
-  .card-emoji{font-size:40px;margin-bottom:10px;display:block;}
   .card-name{font-family:var(--display-font);font-size:18px;margin-bottom:3px;color:var(--text);}
   .card-pronouns{font-size:11px;margin-bottom:9px;font-weight:600;}
   .card-role{background:rgba(0,0,0,0.2);border-radius:7px;padding:3px 9px;display:inline-block;font-size:10px;color:var(--muted);}
+  /* Avatars */
+  .avatar-lg{width:90px;height:90px;border-radius:50%;object-fit:cover;flex-shrink:0;display:block;border:2px solid var(--border);}
+  .avatar-sm{width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block;border:2px solid var(--border);}
+  .avatar-placeholder-lg{width:90px;height:90px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:2px dashed var(--border);}
+  .avatar-placeholder-sm{width:64px;height:64px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;border:2px dashed var(--border);}
+  .avatar-wrapper{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:6px;}
+  .avatar-upload-btn{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--muted);font-size:11px;cursor:pointer;white-space:nowrap;}
+  .avatar-upload-btn:hover{border-color:var(--muted);}
+  .avatar-remove-btn{padding:2px 8px;background:transparent;border:none;color:#f87171;font-size:11px;cursor:pointer;opacity:0.7;}
+  .avatar-uploading{color:var(--muted);font-size:11px;opacity:0.7;}
+  /* Fronting */
   .fronting-banner{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:13px 20px;margin-bottom:22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
   .fronting-dot{width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 7px #10b981;}
   .fronting-label{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;}
-  .fronting-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(0,0,0,0.2);border-radius:20px;padding:3px 12px;cursor:pointer;border:1px solid transparent;font-size:12px;font-weight:700;}
+  .fronting-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,0.2);border-radius:20px;padding:3px 12px 3px 5px;cursor:pointer;border:1px solid transparent;font-size:12px;font-weight:700;}
+  .fronting-chip-avatar{width:24px;height:24px;border-radius:50%;object-fit:cover;}
+  .fronting-chip-placeholder{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  /* Profile */
   .profile-back{background:transparent;border:none;color:var(--muted);font-size:13px;padding:0 0 20px;display:flex;align-items:center;gap:6px;}
   .profile-hero{background:var(--surface);border-radius:22px;padding:30px;margin-bottom:16px;position:relative;overflow:hidden;}
   .profile-main{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:26px 28px;margin-bottom:14px;}
   .profile-name{font-family:var(--display-font);font-size:30px;font-weight:700;color:var(--text);margin-bottom:3px;}
   .profile-pronouns{font-size:13px;font-weight:600;margin-bottom:8px;}
   .fronting-tag{border-radius:20px;padding:3px 11px;font-size:10px;font-weight:700;color:#fff;letter-spacing:0.06em;display:inline-block;}
+  .hero-row{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;position:relative;}
+  .hero-meta{flex:1;min-width:180px;} .hero-actions{display:flex;gap:7px;flex-direction:column;flex-shrink:0;}
+  .edit-inline{background:transparent;border:none;border-bottom:2px solid;color:var(--text);font-size:28px;width:100%;padding:0 0 3px;margin-bottom:5px;}
+  .edit-inline-sm{background:transparent;border:none;border-bottom:1px solid;font-size:13px;width:100%;padding:0 0 3px;}
+  /* Fields */
   .section-header{display:flex;align-items:center;gap:12px;margin:26px 0 14px;}
   .section-line-l{height:1px;flex:1;} .section-line-r{height:1px;flex:1;}
   .section-label{font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;white-space:nowrap;}
@@ -59,6 +78,7 @@
   .field-input{width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;}
   .field-textarea{width:100%;min-height:70px;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;resize:vertical;line-height:1.65;}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:0 22px;}
+  /* Collapsible */
   .collapsible{border-radius:11px;overflow:hidden;margin-bottom:8px;}
   .collapsible-btn{width:100%;padding:11px 16px;background:transparent;border:none;display:flex;align-items:center;justify-content:space-between;gap:8px;}
   .collapsible-btn.open{background:rgba(255,255,255,0.03);}
@@ -66,16 +86,20 @@
   .collapsible-arrow{font-size:13px;transition:transform 0.2s;display:inline-block;}
   .collapsible-arrow.open{transform:rotate(180deg);}
   .collapsible-content{padding:2px 16px 16px;}
+  /* Toggle */
   .toggle-track{width:44px;height:24px;border-radius:12px;position:relative;transition:background 0.2s;flex-shrink:0;cursor:pointer;}
   .toggle-thumb{position:absolute;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.3);}
+  /* Notes */
   .notes-section{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:26px 28px;}
   .note-item{background:rgba(0,0,0,0.2);border-radius:10px;padding:11px 15px;}
   .note-author{font-size:11px;font-weight:700;} .note-date{font-size:10px;color:var(--muted);opacity:0.6;}
   .note-text{font-size:13px;line-height:1.65;margin-top:4px;color:var(--text);}
+  /* Modals */
   .modal-overlay{position:fixed;inset:0;background:rgba(8,6,18,0.88);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(8px);}
   .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:38px 42px;width:350px;box-shadow:0 30px 90px rgba(0,0,0,0.7);}
   .modal-title{font-family:var(--display-font);font-size:22px;text-align:center;color:var(--text);margin-bottom:6px;}
   .modal-sub{color:var(--muted);font-size:13px;text-align:center;margin-bottom:24px;}
+  /* Settings */
   .settings-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 36px;width:540px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 30px 90px rgba(0,0,0,0.7);}
   .settings-label{display:block;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px;}
   .bg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
@@ -85,19 +109,12 @@
   .color-dot{width:14px;height:14px;border-radius:50%;border:1px solid rgba(128,128,128,0.3);flex-shrink:0;}
   .palette{display:flex;gap:7px;flex-wrap:wrap;}
   .palette-dot{width:20px;height:20px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border 0.15s;flex-shrink:0;}
-  .emoji-picker{display:flex;gap:5px;flex-wrap:wrap;}
-  .emoji-btn{font-size:18px;padding:3px;border-radius:5px;border:none;background:transparent;cursor:pointer;}
-  .emoji-btn.selected{background:var(--border);}
-  .hero-row{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap;position:relative;}
-  .hero-meta{flex:1;min-width:180px;} .hero-actions{display:flex;gap:7px;flex-direction:column;flex-shrink:0;}
-  .edit-inline{background:transparent;border:none;border-bottom:2px solid;color:var(--text);font-size:28px;width:100%;padding:0 0 3px;margin-bottom:5px;}
-  .edit-inline-sm{background:transparent;border:none;border-bottom:1px solid;font-size:13px;width:100%;padding:0 0 3px;}
-  .add-form{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:26px 28px;margin-bottom:22px;}
   .font-option{border:2px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;transition:border 0.15s;margin-bottom:8px;}
   .font-option.selected{border-color:#9333ea;background:rgba(147,51,234,0.08);}
   .font-option-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
   .font-option-desc{font-size:11px;color:var(--muted);margin-bottom:6px;}
   .font-option-preview{font-size:14px;line-height:1.5;color:var(--text);opacity:0.85;}
+  /* IO */
   .io-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 36px;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 30px 90px rgba(0,0,0,0.7);}
   .io-btn{display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:12px;border:1px solid var(--border);background:var(--bg);cursor:pointer;width:100%;text-align:left;transition:border 0.15s;margin-bottom:10px;}
   .io-btn:hover{border-color:var(--muted);}
@@ -105,11 +122,13 @@
   .io-btn-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;}
   .io-btn-desc{font-size:12px;color:var(--muted);}
   .io-warning{background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);border-radius:10px;padding:12px 16px;margin:14px 0;font-size:12px;color:#fbbf24;line-height:1.6;}
-  /* Loading / sync */
+  /* Add form */
+  .add-form{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:26px 28px;margin-bottom:22px;}
+  /* Loading */
   .loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;gap:16px;}
   .loading-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:#9333ea;border-radius:50%;animation:spin 0.8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  .loading-text{color:var(--muted);font-size:13px;font-family:var(--font);}
+  .loading-text{color:var(--muted);font-size:13px;}
   .sync-badge{position:fixed;bottom:20px;right:20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px;z-index:500;transition:opacity 0.4s;}
   .sync-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
   .sync-dot.saving{background:#fbbf24;box-shadow:0 0 6px #fbbf24;}
@@ -121,116 +140,132 @@
 <body>
 <div id="app"></div>
 <div id="sync-badge" class="sync-badge" style="opacity:0"></div>
-
 <script>
-// ─── Supabase config ──────────────────────────────────────────────────────────
-const SUPABASE_URL = "https://afmpqfsdsvrsarqyavzw.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmbXBxZnNkc3Zyc2FycXlhdnp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDI5NDEsImV4cCI6MjA5NDE3ODk0MX0.S5b2NGpBdV4vdmDB5MSQiDcsiHIKf8Qe5UWu7gjOi9M";
+const SUPABASE_URL="https://afmpqfsdsvrsarqyavzw.supabase.co";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmbXBxZnNkc3Zyc2FycXlhdnp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDI5NDEsImV4cCI6MjA5NDE3ODk0MX0.S5b2NGpBdV4vdmDB5MSQiDcsiHIKf8Qe5UWu7gjOi9M";
 
-const api = {
-  async req(method, path, body) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+// ─── API ──────────────────────────────────────────────────────────────────────
+const api={
+  async req(method,path,body){
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{
       method,
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Content-Type": "application/json",
-        "Prefer": method === "POST" ? "resolution=merge-duplicates" : "",
-      },
-      body: body ? JSON.stringify(body) : undefined,
+      headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json","Prefer":method==="POST"?"resolution=merge-duplicates":""},
+      body:body?JSON.stringify(body):undefined,
     });
-    if (!res.ok) { const t = await res.text(); throw new Error(t); }
-    if (res.status === 204) return null;
-    return res.json();
+    if(!res.ok){const t=await res.text();throw new Error(t);}
+    if(res.status===204)return null;
+    const text=await res.text();
+    if(!text||text.trim()==='')return null;
+    try{return JSON.parse(text);}catch{return null;}
   },
-  get: (path) => api.req("GET", path),
-  post: (path, body) => api.req("POST", path, body),
-  patch: (path, body) => api.req("PATCH", path, body),
-  delete: (path) => api.req("DELETE", path),
+  get:(path)=>api.req("GET",path),
+  post:(path,body)=>api.req("POST",path,body),
+  delete:(path)=>api.req("DELETE",path),
 };
 
+// ─── Storage upload ───────────────────────────────────────────────────────────
+async function uploadPhoto(file, alterId) {
+  // Resize/compress to max 400px on longest side before uploading
+  const compressed = await compressImage(file, 400);
+  const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+  const filename = `${alterId}-${Date.now()}.${ext}`;
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/photos/${filename}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': compressed.type,
+      'x-upsert': 'true',
+    },
+    body: compressed,
+  });
+  if (!res.ok) { const t = await res.text(); throw new Error(t); }
+  return `${SUPABASE_URL}/storage/v1/object/public/photos/${filename}`;
+}
+
+async function deletePhoto(url) {
+  if (!url) return;
+  const filename = url.split('/photos/').pop();
+  if (!filename) return;
+  await fetch(`${SUPABASE_URL}/storage/v1/object/photos/${filename}`, {
+    method: 'DELETE',
+    headers: {'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`},
+  }).catch(()=>{});
+}
+
+function compressImage(file, maxPx) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let {width: w, height: h} = img;
+      if (w > maxPx || h > maxPx) {
+        if (w > h) { h = Math.round(h * maxPx / w); w = maxPx; }
+        else { w = Math.round(w * maxPx / h); h = maxPx; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      canvas.toBlob(blob => resolve(blob), 'image/jpeg', 0.82);
+    };
+    img.src = url;
+  });
+}
+
 // ─── Sync helpers ─────────────────────────────────────────────────────────────
-let syncTimer = null;
-let syncBadgeTimer = null;
-
-function showSync(status, text) {
-  const badge = document.getElementById('sync-badge');
-  badge.innerHTML = '';
-  const dot = document.createElement('div');
-  dot.className = `sync-dot ${status}`;
-  const label = document.createElement('span');
-  label.textContent = text;
-  badge.appendChild(dot);
-  badge.appendChild(label);
-  badge.style.opacity = '1';
+let syncTimer=null, syncBadgeTimer=null;
+function showSync(status,text){
+  const badge=document.getElementById('sync-badge');
+  badge.innerHTML='';
+  const dot=document.createElement('div'); dot.className=`sync-dot ${status}`;
+  const label=document.createElement('span'); label.textContent=text;
+  badge.appendChild(dot); badge.appendChild(label); badge.style.opacity='1';
   clearTimeout(syncBadgeTimer);
-  if (status === 'saved') {
-    syncBadgeTimer = setTimeout(() => { badge.style.opacity = '0'; }, 2500);
-  }
+  if(status==='saved') syncBadgeTimer=setTimeout(()=>{badge.style.opacity='0';},2500);
 }
-
-async function dbSaveAlters() {
-  showSync('saving', 'Saving…');
-  try {
-    // Upsert all alters
-    const rows = state.alters.map(a => ({ id: a.id, data: a }));
-    if (rows.length > 0) await api.post('alters?on_conflict=id', rows);
-    // Save system name
-    await api.post('system_meta?on_conflict=key', [{ key: 'systemName', value: state.systemName }]);
-    showSync('saved', 'Saved');
-  } catch(e) {
-    showSync('error', 'Save failed');
-    console.error(e);
-  }
+async function dbSaveAlters(){
+  showSync('saving','Saving…');
+  try{
+    const rows=state.alters.map(a=>({id:a.id,data:a}));
+    if(rows.length>0) await api.post('alters?on_conflict=id',rows);
+    await api.post('system_meta?on_conflict=key',[{key:'systemName',value:state.systemName}]);
+    showSync('saved','Saved');
+  }catch(e){showSync('error','Save failed');console.error(e);}
 }
-
-async function dbDeleteAlter(id) {
-  showSync('saving', 'Saving…');
-  try {
-    await api.delete(`alters?id=eq.${id}`);
-    showSync('saved', 'Saved');
-  } catch(e) { showSync('error', 'Save failed'); }
+async function dbDeleteAlter(id){
+  showSync('saving','Saving…');
+  try{await api.delete(`alters?id=eq.${id}`);showSync('saved','Saved');}
+  catch(e){showSync('error','Save failed');}
 }
-
-async function dbSaveNote(note) {
-  try {
-    await api.post('notes?on_conflict=id', [{ id: note.id, alter_id: note.alterId, data: note }]);
-  } catch(e) { console.error('Note save failed', e); }
+async function dbSaveNote(note){
+  try{await api.post('notes?on_conflict=id',[{id:note.id,alter_id:note.alterId,data:note}]);}
+  catch(e){console.error('Note save failed',e);}
 }
-
-async function dbLoad() {
-  const [altersRows, notesRows, metaRows] = await Promise.all([
+async function dbLoad(){
+  const [altersRows,notesRows,metaRows]=await Promise.all([
     api.get('alters?select=data&order=data->>name'),
     api.get('notes?select=data&order=data->>ts'),
     api.get('system_meta?select=key,value'),
   ]);
-  state.alters = (altersRows || []).map(r => r.data);
-  state.notes  = (notesRows  || []).map(r => r.data);
-  const nameMeta = (metaRows || []).find(r => r.key === 'systemName');
-  if (nameMeta) state.systemName = nameMeta.value;
-  // If empty DB, seed with example alter
-  if (state.alters.length === 0) {
-    state.alters = [DEMO_ALTER];
-    await dbSaveAlters();
-  }
+  state.alters=(altersRows||[]).map(r=>r.data);
+  state.notes=(notesRows||[]).map(r=>r.data);
+  const nameMeta=(metaRows||[]).find(r=>r.key==='systemName');
+  if(nameMeta) state.systemName=nameMeta.value;
+  if(state.alters.length===0){state.alters=[DEMO_ALTER];await dbSaveAlters();}
 }
+function scheduleSave(){clearTimeout(syncTimer);syncTimer=setTimeout(dbSaveAlters,800);}
 
-function scheduleSave() {
-  clearTimeout(syncTimer);
-  syncTimer = setTimeout(dbSaveAlters, 800);
-}
-
-// ─── Local settings (per-device only) ────────────────────────────────────────
-const localStore = {
-  get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+// ─── Local settings ───────────────────────────────────────────────────────────
+const localStore={
+  get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
 };
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const EDIT_PASSWORD = "system2024";
-const PALETTE = ["#f87171","#fb923c","#fbbf24","#a3e635","#34d399","#22d3ee","#60a5fa","#a78bfa","#f472b6","#e879f9","#94a3b8","#f9a8d4","#c084fc","#86efac","#fdba74"];
-const EMOJIS = ["🌙","⭐","🌸","🔥","🌊","🍃","💎","🦋","🌈","🐺","🦊","🐉","🌺","✨","🎭","🗡️","🛡️","🎨","🎵","📚","💫","🌻","🦅","🐈","🌿","🧸","🪷","🌑","☁️","🫧","🪞","🕯️","🧿","🫀","🦴","🎪"];
-const BG_PRESETS = [
+const EDIT_PASSWORD="system2024";
+const PALETTE=["#f87171","#fb923c","#fbbf24","#a3e635","#34d399","#22d3ee","#60a5fa","#a78bfa","#f472b6","#e879f9","#94a3b8","#f9a8d4","#c084fc","#86efac","#fdba74"];
+const BG_PRESETS=[
   {label:"Midnight",bg:"#080614",surface:"#12101e",border:"#1a1730",muted:"#504876"},
   {label:"Slate",bg:"#0d1117",surface:"#161b22",border:"#21262d",muted:"#4a5568"},
   {label:"Forest",bg:"#071a0f",surface:"#0f2419",border:"#1a3a28",muted:"#4a7c59"},
@@ -241,46 +276,43 @@ const BG_PRESETS = [
   {label:"Warm Paper",bg:"#fdf8f0",surface:"#ffffff",border:"#e8ddc8",muted:"#8a7060"},
   {label:"Sage",bg:"#f0f5f0",surface:"#ffffff",border:"#d4e0d4",muted:"#5a7a5a"},
 ];
-const TEXT_PRESETS = [
+const TEXT_PRESETS=[
   {label:"Lavender",value:"#e8e0f8"},{label:"White",value:"#ffffff"},
   {label:"Cream",value:"#fdf8e8"},{label:"Soft Blue",value:"#dbeafe"},
   {label:"Mint",value:"#d1fae5"},{label:"Peach",value:"#fde8d8"},
   {label:"Charcoal",value:"#1a1a2e"},{label:"Dark Slate",value:"#1e293b"},
   {label:"Dark Forest",value:"#14281e"},
 ];
-const DYSLEXIA_FONTS = [
+const DYSLEXIA_FONTS=[
   {id:0,name:"Off",desc:"Default app fonts",fontFamily:"'DM Sans',sans-serif",displayFamily:"'Playfair Display',serif"},
   {id:1,name:"OpenDyslexic",desc:"Weighted bottoms on each letter to reduce letter-flipping",fontFamily:"'OpenDyslexic',sans-serif",displayFamily:"'OpenDyslexic',sans-serif"},
   {id:2,name:"Atkinson Hyperlegible",desc:"Highly distinct letterforms with strong contrast",fontFamily:"'Atkinson Hyperlegible',sans-serif",displayFamily:"'Atkinson Hyperlegible',sans-serif"},
   {id:3,name:"Lexie Readable",desc:"Rounded, friendly letterforms designed specifically for dyslexia",fontFamily:"'LexieReadable',sans-serif",displayFamily:"'LexieReadable',sans-serif"},
 ];
 
-const EMPTY_ALTER = {id:"",name:"",pronouns:"",role:"",roleDescription:"",age:"",preferredLabels:"",appearance:"",music:"",mediaFaves:"",hobbies:"",systemSkills:"",otherLikes:"",dislikes:"",mannerisms:"",internalTraits:"",freeSpace:"",emotionalReg:"",loveLanguages:"",personalProblems:"",triggers:"",substances:"",kinks:"",emoji:"✨",color:"#a78bfa",isFronting:false};
-const DEMO_ALTER = {...EMPTY_ALTER,id:"demo1",name:"Example Alter",pronouns:"they/them",role:"Host",roleDescription:"Handles most day-to-day functioning and fronts the most often.",age:"Matches body age",preferredLabels:"Alter, system member",appearance:"Tall with dark hair, usually seen in cozy sweaters in the inner world.",music:"Lo-fi playlists, indie folk, soft ambient",mediaFaves:"Studio Ghibli films, cozy slice-of-life anime",hobbies:"Reading, journaling, long walks",systemSkills:"Communication, keeping the schedule, interfacing with strangers",otherLikes:"Rain sounds, candles, old books",dislikes:"Loud unexpected noises, being interrupted",mannerisms:"Tends to trail off mid-sentence, fidgets with sleeves, light masking",internalTraits:"Compassionate, quietly anxious, deeply empathetic",freeSpace:"This is just an example — head into Edit Mode to build your real profiles!",emotionalReg:"Moderate regulation, high empathy, expresses through writing",loveLanguages:"1. Words of affirmation  2. Quality time  3. Acts of service",personalProblems:"Tends to take on too much responsibility",triggers:"Raised voices, sudden abandonment language",substances:"Caffeine okay, alcohol complicated",kinks:"",emoji:"🌙",color:"#a78bfa",isFronting:true};
+const EMPTY_ALTER={id:"",name:"",pronouns:"",role:"",roleDescription:"",age:"",preferredLabels:"",appearance:"",music:"",mediaFaves:"",hobbies:"",systemSkills:"",otherLikes:"",dislikes:"",mannerisms:"",internalTraits:"",freeSpace:"",emotionalReg:"",loveLanguages:"",personalProblems:"",triggers:"",substances:"",kinks:"",photo:"",color:"#a78bfa",isFronting:false};
+const DEMO_ALTER={...EMPTY_ALTER,id:"demo1",name:"Example Alter",pronouns:"they/them",role:"Host",roleDescription:"Handles most day-to-day functioning and fronts the most often.",age:"Matches body age",preferredLabels:"Alter, system member",appearance:"Tall with dark hair, usually seen in cozy sweaters in the inner world.",music:"Lo-fi playlists, indie folk, soft ambient",mediaFaves:"Studio Ghibli films, cozy slice-of-life anime",hobbies:"Reading, journaling, long walks",systemSkills:"Communication, keeping the schedule, interfacing with strangers",otherLikes:"Rain sounds, candles, old books",dislikes:"Loud unexpected noises, being interrupted",mannerisms:"Tends to trail off mid-sentence, fidgets with sleeves, light masking",internalTraits:"Compassionate, quietly anxious, deeply empathetic",freeSpace:"This is just an example — head into Edit Mode to build your real profiles!",emotionalReg:"Moderate regulation, high empathy, expresses through writing",loveLanguages:"1. Words of affirmation  2. Quality time  3. Acts of service",personalProblems:"Tends to take on too much responsibility",triggers:"Raised voices, sudden abandonment language",substances:"Caffeine okay, alcohol complicated",kinks:"",photo:"",color:"#a78bfa",isFronting:true};
 
 // ─── State ────────────────────────────────────────────────────────────────────
-let state = {
-  alters: [], notes: [], systemName: "Our System",
-  settings: localStore.get("userSettings_v1") || {bgPreset:0,textPreset:0,dyslexiaFont:0},
-  editMode:false, selected:null, editingName:false, showAddForm:false,
-  openSections:{}, kinkVisible:false, loading:true,
+let state={
+  alters:[],notes:[],systemName:"Our System",
+  settings:localStore.get("userSettings_v1")||{bgPreset:0,textPreset:0,dyslexiaFont:0},
+  editMode:false,selected:null,editingName:false,showAddForm:false,
+  openSections:{},kinkVisible:false,loading:true,
 };
-
-function saveSettings() { localStore.set("userSettings_v1", state.settings); }
-
-function applyTheme(s) {
-  const bg = BG_PRESETS[s.bgPreset]||BG_PRESETS[0];
-  const text = TEXT_PRESETS[s.textPreset]?.value||"#e8e0f8";
-  const f = DYSLEXIA_FONTS[s.dyslexiaFont]||DYSLEXIA_FONTS[0];
-  const r = document.documentElement;
-  r.style.setProperty('--bg',bg.bg); r.style.setProperty('--surface',bg.surface);
-  r.style.setProperty('--border',bg.border); r.style.setProperty('--muted',bg.muted);
-  r.style.setProperty('--text',text); r.style.setProperty('--font',f.fontFamily);
+function saveSettings(){localStore.set("userSettings_v1",state.settings);}
+function applyTheme(s){
+  const bg=BG_PRESETS[s.bgPreset]||BG_PRESETS[0];
+  const text=TEXT_PRESETS[s.textPreset]?.value||"#e8e0f8";
+  const f=DYSLEXIA_FONTS[s.dyslexiaFont]||DYSLEXIA_FONTS[0];
+  const r=document.documentElement;
+  r.style.setProperty('--bg',bg.bg);r.style.setProperty('--surface',bg.surface);
+  r.style.setProperty('--border',bg.border);r.style.setProperty('--muted',bg.muted);
+  r.style.setProperty('--text',text);r.style.setProperty('--font',f.fontFamily);
   r.style.setProperty('--display-font',f.displayFamily);
-  document.body.style.background = bg.bg;
+  document.body.style.background=bg.bg;
 }
-
-function uid() { return Math.random().toString(36).slice(2,10); }
+function uid(){return Math.random().toString(36).slice(2,10);}
 
 // ─── DOM helper ───────────────────────────────────────────────────────────────
 function h(tag,attrs,...children){
@@ -298,25 +330,84 @@ function h(tag,attrs,...children){
   return el;
 }
 
-// ─── Loading screen ───────────────────────────────────────────────────────────
-function showLoading() {
-  const el = h('div',{className:'loading-screen'},[
-    h('div',{className:'loading-spinner'}),
-    h('p',{className:'loading-text'},['Loading system…']),
-  ]);
-  el.id = 'loading-screen';
-  document.body.appendChild(el);
+// ─── Avatar helpers ───────────────────────────────────────────────────────────
+function silhouetteSVG(size){
+  const s=size==='lg'?36:26;
+  return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>`;
 }
-function hideLoading() {
-  const el = document.getElementById('loading-screen');
-  if (el) el.remove();
+
+function renderAvatar(photoUrl, color, size) {
+  // size: 'lg' (profile hero) or 'sm' (card)
+  const cls = size==='lg' ? 'avatar-lg' : 'avatar-sm';
+  const phCls = size==='lg' ? 'avatar-placeholder-lg' : 'avatar-placeholder-sm';
+  if (photoUrl) {
+    return h('img', {className: cls, src: photoUrl, alt: 'Profile photo', style:{borderColor:`${color}66`}});
+  }
+  const ph = h('div', {className: phCls, style:{borderColor:`${color}44`,color:color}});
+  ph.innerHTML = silhouetteSVG(size);
+  return ph;
 }
+
+// ─── Avatar upload widget (edit mode only) ────────────────────────────────────
+function renderAvatarEditor(draft, color, onUpdate) {
+  let uploading = false;
+
+  function build() {
+    const avatarEl = renderAvatar(draft.photo, color, 'lg');
+    avatarEl.style.filter = `drop-shadow(0 0 14px ${color}66)`;
+
+    const uploadBtn = h('button', {className:'avatar-upload-btn', onClick: () => {
+      const input = document.createElement('input');
+      input.type='file'; input.accept='image/*';
+      input.onchange = async e => {
+        const file = e.target.files[0]; if(!file) return;
+        uploading = true; rebuildWidget();
+        try {
+          const url = await uploadPhoto(file, draft.id);
+          if (draft.photo) await deletePhoto(draft.photo);
+          draft.photo = url;
+          onUpdate(url);
+        } catch(err) {
+          alert('Photo upload failed: ' + err.message);
+        }
+        uploading = false; rebuildWidget();
+      };
+      input.click();
+    }}, [uploading ? '⏳ Uploading…' : '📷 Upload photo']);
+
+    const removeBtn = draft.photo
+      ? h('button', {className:'avatar-remove-btn', onClick: async () => {
+          await deletePhoto(draft.photo);
+          draft.photo = '';
+          onUpdate('');
+          rebuildWidget();
+        }}, ['Remove photo'])
+      : null;
+
+    wrapper.innerHTML = '';
+    wrapper.appendChild(avatarEl);
+    wrapper.appendChild(uploadBtn);
+    if (removeBtn) wrapper.appendChild(removeBtn);
+  }
+
+  const wrapper = h('div', {className:'avatar-wrapper'});
+  function rebuildWidget() { build(); }
+  build();
+  return wrapper;
+}
+
+// ─── Loading ──────────────────────────────────────────────────────────────────
+function showLoading(){
+  const el=h('div',{className:'loading-screen'},[h('div',{className:'loading-spinner'}),h('p',{className:'loading-text'},['Loading system…'])]);
+  el.id='loading-screen'; document.body.appendChild(el);
+}
+function hideLoading(){const el=document.getElementById('loading-screen');if(el)el.remove();}
 
 // ─── Password modal ───────────────────────────────────────────────────────────
 function renderPasswordModal(onSuccess,onCancel){
   let inputEl;
   const errMsg=h('p',{style:{color:'#f87171',fontSize:'12px',marginBottom:'14px',display:'none'}},['Incorrect password']);
-  const attempt=()=>{ if(inputEl.value===EDIT_PASSWORD){onSuccess();}else{errMsg.style.display='block';inputEl.value='';inputEl.focus();} };
+  const attempt=()=>{if(inputEl.value===EDIT_PASSWORD){onSuccess();}else{errMsg.style.display='block';inputEl.value='';inputEl.focus();}};
   inputEl=h('input',{type:'password',className:'field-input',placeholder:'Password',style:{marginBottom:'18px'},onKeydown:e=>{if(e.key==='Enter')attempt();}});
   const box=h('div',{className:'modal-box'},[
     h('div',{style:{fontSize:'30px',textAlign:'center',marginBottom:'8px'}},['🔒']),
@@ -380,9 +471,9 @@ function renderSettingsPanel(){
       h('div',{style:{marginBottom:'24px'}},[bgGrid]),
       h('label',{className:'settings-label'},['Text Color']),
       h('div',{style:{marginBottom:'24px'}},[textRow]),
-      fontOptions, previewStrip,
+      fontOptions,previewStrip,
       h('div',{style:{display:'flex',gap:'10px'}},[
-        h('button',{className:'btn-purple',style:{flex:'1',padding:'11px'},onClick:()=>{ state.settings={...draft}; saveSettings(); applyTheme(state.settings); overlayEl.remove(); render(); }},['Save settings']),
+        h('button',{className:'btn-purple',style:{flex:'1',padding:'11px'},onClick:()=>{state.settings={...draft};saveSettings();applyTheme(state.settings);overlayEl.remove();render();}},['Save settings']),
         h('button',{className:'btn-ghost',style:{padding:'11px 18px'},onClick:()=>overlayEl.remove()},['Cancel']),
       ]),
     ]);
@@ -393,7 +484,7 @@ function renderSettingsPanel(){
   return overlayEl;
 }
 
-// ─── Import / Export panel ────────────────────────────────────────────────────
+// ─── IO panel ────────────────────────────────────────────────────────────────
 function renderIOPanel(){
   function doExport(){
     const data={version:1,exported:new Date().toISOString(),systemName:state.systemName,alters:state.alters,notes:state.notes};
@@ -415,14 +506,13 @@ function renderIOPanel(){
           const ok=confirm(`Replace all current data with backup from ${data.exported?new Date(data.exported).toLocaleDateString():'unknown date'}?\n${data.alters.length} alter(s), ${(data.notes||[]).length} note(s).\n\nThis cannot be undone.`);
           if(!ok)return;
           showSync('saving','Importing…');
-          // Clear existing then upload new
           await api.delete('alters?id=neq.___none___');
           await api.delete('notes?id=neq.___none___');
-          if(data.systemName) state.systemName=data.systemName;
-          state.alters=data.alters; state.notes=data.notes||[];
+          if(data.systemName)state.systemName=data.systemName;
+          state.alters=data.alters;state.notes=data.notes||[];
           await dbSaveAlters();
-          for(const n of state.notes) await dbSaveNote(n);
-          state.selected=null; overlayEl.remove(); render();
+          for(const n of state.notes)await dbSaveNote(n);
+          state.selected=null;overlayEl.remove();render();
         }catch(e){alert('Could not read that file.');}
       };
       reader.readAsText(file);
@@ -435,7 +525,7 @@ function renderIOPanel(){
       h('button',{style:{background:'transparent',border:'none',color:'var(--muted)',fontSize:'22px',lineHeight:'1',padding:'0',cursor:'pointer'},onClick:()=>overlayEl.remove()},['×']),
     ]),
     h('p',{style:{color:'var(--muted)',fontSize:'12px',lineHeight:'1.65',marginBottom:'24px'}},
-      ['Your data is stored in the shared database — everyone sees the same profiles in real time. Export makes a local backup you can keep safe.']),
+      ['Your data is stored in the shared database. Export makes a local backup you can keep safe.']),
     h('button',{className:'io-btn',onClick:doExport},[
       h('span',{className:'io-btn-icon'},['📤']),
       h('div',{},[h('div',{className:'io-btn-title'},['Export backup']),h('div',{className:'io-btn-desc'},['Download all alters & notes as a .json file'])]),
@@ -450,7 +540,7 @@ function renderIOPanel(){
   return overlayEl;
 }
 
-// ─── Section header ───────────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 function renderSectionHeader(label,color){
   return h('div',{className:'section-header'},[
     h('div',{className:'section-line-l',style:{background:`linear-gradient(90deg,${color}55,transparent)`}}),
@@ -458,8 +548,6 @@ function renderSectionHeader(label,color){
     h('div',{className:'section-line-r',style:{background:`linear-gradient(90deg,transparent,${color}55)`}}),
   ]);
 }
-
-// ─── Field ────────────────────────────────────────────────────────────────────
 function renderField(label,value,editing,onInput,multiline,placeholder){
   const isEmpty=!value||value.trim()==='';
   const inputEl=editing
@@ -471,8 +559,6 @@ function renderField(label,value,editing,onInput,multiline,placeholder){
   if(editing&&multiline){const ta=el.querySelector('textarea');if(ta)ta.value=value||'';}
   return el;
 }
-
-// ─── Collapsible ──────────────────────────────────────────────────────────────
 function renderCollapsible(labelText,color,defaultOpen,renderContent,sectionKey){
   const isOpen=state.openSections[sectionKey]!==undefined?state.openSections[sectionKey]:defaultOpen;
   const content=h('div',{className:'collapsible-content',style:{display:isOpen?'block':'none'}});
@@ -483,7 +569,6 @@ function renderCollapsible(labelText,color,defaultOpen,renderContent,sectionKey)
   ]);
   return h('div',{className:'collapsible',style:{border:`1px solid ${color}2e`}},[btn,content]);
 }
-
 function renderToggle(checked,onChange,color){
   return h('div',{className:'toggle-track',style:{background:checked?color:'var(--border)',cursor:'pointer'},onClick:()=>onChange(!checked)},[
     h('div',{className:'toggle-thumb',style:{left:checked?'22px':'3px'}}),
@@ -492,16 +577,18 @@ function renderToggle(checked,onChange,color){
 
 // ─── Alter Card ───────────────────────────────────────────────────────────────
 function renderAlterCard(alter){
+  const avatarEl=renderAvatar(alter.photo,alter.color,'sm');
   const card=h('div',{className:'alter-card',onClick:()=>{state.selected=alter;state.kinkVisible=false;state.openSections={};render();}},[
     alter.isFronting?h('div',{className:'card-fronting-badge',style:{background:alter.color}},['FRONTING']):null,
     state.editMode?h('button',{className:'btn-danger',onClick:async e=>{
       e.stopPropagation();
       if(!confirm('Remove this alter from the system?'))return;
+      if(alter.photo) await deletePhoto(alter.photo);
       state.alters=state.alters.filter(a=>a.id!==alter.id);
       if(state.selected?.id===alter.id)state.selected=null;
-      render(); await dbDeleteAlter(alter.id);
+      render();await dbDeleteAlter(alter.id);
     }},['×']):null,
-    h('span',{className:'card-emoji',style:{filter:`drop-shadow(0 0 12px ${alter.color}77)`}},[alter.emoji]),
+    avatarEl,
     h('h3',{className:'card-name'},[alter.name]),
     h('p',{className:'card-pronouns',style:{color:alter.color}},[alter.pronouns||'']),
     alter.role?h('span',{className:'card-role'},[alter.role]):null,
@@ -523,11 +610,6 @@ function renderAddForm(){
       draft.color=c;document.querySelectorAll('#add-palette .palette-dot').forEach((d,i)=>d.style.borderColor=PALETTE[i]===c?'#fff':'transparent');
     }});return dot;
   }));
-  const emojiPickerEl=h('div',{className:'emoji-picker',id:'add-emoji'},EMOJIS.map(em=>{
-    return h('button',{className:'emoji-btn'+(draft.emoji===em?' selected':''),onClick:()=>{
-      draft.emoji=em;document.querySelectorAll('#add-emoji .emoji-btn').forEach(b=>b.classList.toggle('selected',b.textContent===em));
-    }},[em]);
-  }));
   return h('div',{className:'add-form'},[
     h('h3',{style:{color:'var(--text)',fontFamily:'var(--display-font)',fontSize:'21px',marginBottom:'18px'}},['New Alter']),
     h('div',{className:'two-col'},[
@@ -536,16 +618,14 @@ function renderAddForm(){
       h('div',{className:'field'},[h('label',{className:'field-label'},['Role']),roleEl]),
       h('div',{className:'field'},[h('label',{className:'field-label'},['Age (if different)']),ageEl]),
     ]),
-    h('div',{style:{marginBottom:'13px'}},[h('p',{className:'field-label'},['Color']),paletteEl]),
-    h('div',{style:{marginBottom:'18px'}},[h('p',{className:'field-label'},['Emoji']),emojiPickerEl]),
-    h('p',{style:{color:'var(--muted)',fontSize:'11px',fontStyle:'italic',marginBottom:'16px',opacity:'0.7'}},['You can fill in all other fields after adding.']),
+    h('div',{style:{marginBottom:'18px'}},[h('p',{className:'field-label'},['Accent color']),paletteEl]),
+    h('p',{style:{color:'var(--muted)',fontSize:'11px',fontStyle:'italic',marginBottom:'16px',opacity:'0.7'}},['You can add a photo and fill in all other fields after adding.']),
     h('div',{style:{display:'flex',gap:'9px'}},[
       h('button',{className:'btn-purple',onClick:async()=>{
         if(!draft.name.trim())return;
         state.alters.push({...draft});
         state.showAddForm=false;
-        render();
-        await dbSaveAlters();
+        render();await dbSaveAlters();
       }},['Add to System']),
       h('button',{className:'btn-cancel',onClick:()=>{state.showAddForm=false;render();}},['Cancel']),
     ]),
@@ -565,30 +645,31 @@ function renderProfile(alter){
   }
 
   function buildProfile(){
-    const emojiEl=editing
-      ?h('div',{className:'emoji-picker',id:'hero-emoji',style:{maxWidth:'240px',marginBottom:'6px'}},EMOJIS.map(em=>
-          h('button',{className:'emoji-btn'+(draft.emoji===em?' selected':''),onClick:()=>{
-            draft.emoji=em;document.querySelectorAll('#hero-emoji .emoji-btn').forEach(b=>b.classList.toggle('selected',b.textContent===em));
-          }},[em])
-        ))
-      :h('div',{style:{fontSize:'60px',lineHeight:'1',filter:`drop-shadow(0 0 20px ${c}99)`}},[alter.emoji]);
+    // Avatar display or editor
+    let avatarSection;
+    if(editing){
+      avatarSection=renderAvatarEditor(draft, draft.color, (newUrl)=>{
+        draft.photo=newUrl;
+      });
+    } else {
+      const av=renderAvatar(alter.photo, c, 'lg');
+      av.style.filter=`drop-shadow(0 0 16px ${c}66)`;
+      avatarSection=h('div',{className:'avatar-wrapper'},[av]);
+    }
 
     const nameEl=editing
       ?h('input',{className:'edit-inline',style:{borderBottomColor:c,fontFamily:'var(--display-font)'},value:draft.name,onInput:e=>draft.name=e.target.value})
       :h('h2',{className:'profile-name'},[alter.name]);
-
     const pronounsEl=editing
       ?h('input',{className:'edit-inline-sm',style:{borderBottomColor:`${c}55`,color:c},value:draft.pronouns,onInput:e=>draft.pronouns=e.target.value})
       :h('p',{className:'profile-pronouns',style:{color:c}},[alter.pronouns||'']);
-
     const statusEl=editing
       ?h('div',{style:{display:'flex',alignItems:'center',gap:'8px',marginTop:'6px',marginBottom:'14px'}},[
           h('span',{style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase'}},['Fronting']),
           renderToggle(draft.isFronting,v=>{draft.isFronting=v;rebuildProfile();},c),
         ])
       :(alter.isFronting?h('span',{className:'fronting-tag',style:{background:c}},['FRONTING']):h('span',{},[]));
-
-    const colorPickerEl=editing?h('div',{style:{marginTop:'4px'}},[
+    const colorPickerEl=editing?h('div',{style:{marginTop:'14px'}},[
       h('p',{style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'7px'}},['Accent color']),
       h('div',{className:'palette',id:'hero-palette'},PALETTE.map(col=>{
         const dot=h('div',{className:'palette-dot',style:{background:col,borderColor:draft.color===col?'#fff':'transparent'},onClick:()=>{
@@ -616,22 +697,23 @@ function renderProfile(alter){
     const heroGlow=h('div',{style:{position:'absolute',inset:'0',background:`radial-gradient(ellipse at 72% 18%, ${c}18 0%, transparent 62%)`,pointerEvents:'none'}});
     const hero=h('div',{className:'profile-hero',style:{border:`1px solid ${c}44`}},[
       heroGlow,
-      h('div',{className:'hero-row'},[emojiEl,h('div',{className:'hero-meta'},[nameEl,pronounsEl,statusEl,colorPickerEl]),actionsEl]),
+      h('div',{className:'hero-row'},[
+        avatarSection,
+        h('div',{className:'hero-meta'},[nameEl,pronounsEl,statusEl,colorPickerEl]),
+        actionsEl,
+      ]),
     ]);
 
     const profileNotes=state.notes.filter(n=>n.alterId===alter.id);
     const authorInput=h('input',{className:'field-input',placeholder:'Your name (optional)',style:{marginBottom:'9px'},onInput:e=>noteAuthor=e.target.value});
     const textInput=h('textarea',{className:'field-textarea',placeholder:`Write something for ${alter.name}…`,style:{marginBottom:'11px'},onInput:e=>noteText=e.target.value});
-
     const notesSection=h('div',{className:'notes-section'},[
       renderSectionHeader(`Leave a note for ${alter.name}`,c),
       authorInput,textInput,
       h('button',{style:{padding:'9px 20px',background:`linear-gradient(135deg,${c}bb,${c})`,border:'none',borderRadius:'8px',color:'#fff',fontSize:'13px',fontWeight:'700'},onClick:async()=>{
         if(!textInput.value.trim())return;
         const note={id:uid(),alterId:alter.id,author:authorInput.value.trim()||'Anonymous',text:textInput.value.trim(),ts:Date.now()};
-        state.notes.push(note);
-        rebuildProfile();
-        await dbSaveNote(note);
+        state.notes.push(note);rebuildProfile();await dbSaveNote(note);
       }},['Leave note ✉️']),
       profileNotes.length>0?h('div',{style:{marginTop:'22px'}},[
         h('p',{style:{color:'var(--muted)',fontSize:'9px',fontWeight:'700',letterSpacing:'0.14em',textTransform:'uppercase',marginBottom:'12px'}},['Notes from friends']),
@@ -702,9 +784,12 @@ function renderGallery(){
   const frontingBanner=fronting.length>0
     ?h('div',{className:'fronting-banner'},[
         h('div',{style:{display:'flex',alignItems:'center',gap:'6px',flexShrink:'0'}},[h('div',{className:'fronting-dot'}),h('span',{className:'fronting-label'},['Currently fronting'])]),
-        h('div',{style:{display:'flex',gap:'7px',flexWrap:'wrap'}},fronting.map(a=>
-          h('span',{className:'fronting-chip',style:{borderColor:`${a.color}30`,color:a.color},onClick:()=>{state.selected=a;state.kinkVisible=false;state.openSections={};render();}},[h('span',{style:{fontSize:'14px'}},[a.emoji]),a.name])
-        )),
+        h('div',{style:{display:'flex',gap:'7px',flexWrap:'wrap'}},fronting.map(a=>{
+          const chipAvatar = a.photo
+            ? h('img',{className:'fronting-chip-avatar',src:a.photo,alt:''})
+            : (() => { const d=h('div',{className:'fronting-chip-placeholder',style:{background:`${a.color}33`,color:a.color}}); d.innerHTML=silhouetteSVG('sm'); return d; })();
+          return h('span',{className:'fronting-chip',style:{borderColor:`${a.color}30`,color:a.color},onClick:()=>{state.selected=a;state.kinkVisible=false;state.openSections={};render();}},[chipAvatar,a.name]);
+        })),
       ])
     :null;
   const gallery=state.alters.length===0
@@ -721,8 +806,7 @@ function renderHeader(){
     nameDisplay=h('div',{style:{display:'flex',gap:'8px',alignItems:'center'}},[inp,h('button',{style:{background:'#6d28d9',border:'none',borderRadius:'5px',color:'#fff',cursor:'pointer',padding:'4px 11px',fontSize:'11px',fontWeight:'700'},onClick:()=>{state.editingName=false;scheduleSave();render();}},['Save'])]);
     setTimeout(()=>inp.focus(),30);
   }else{
-    nameDisplay=h('h1',{className:'system-title',style:{cursor:state.editMode?'pointer':'default'},onClick:()=>{if(state.editMode){state.editingName=true;render();}}},
-      [state.systemName,state.editMode?h('span',{style:{fontSize:'12px',color:'var(--muted)',marginLeft:'7px',opacity:'0.5'}},['✏️']):null]);
+    nameDisplay=h('h1',{className:'system-title',style:{cursor:state.editMode?'pointer':'default'},onClick:()=>{if(state.editMode){state.editingName=true;render();}}},[state.systemName,state.editMode?h('span',{style:{fontSize:'12px',color:'var(--muted)',marginLeft:'7px',opacity:'0.5'}},['✏️']):null]);
   }
   const settingsBtn=h('button',{className:'btn-icon',title:'Appearance settings',onClick:()=>document.body.appendChild(renderSettingsPanel())},['⚙']);
   const ioBtn=state.editMode?h('button',{className:'btn-icon',title:'Import / Export',style:{fontSize:'14px'},onClick:()=>document.body.appendChild(renderIOPanel())},['💾']):null;
@@ -739,7 +823,7 @@ function renderHeader(){
   ]);
 }
 
-// ─── Main render ──────────────────────────────────────────────────────────────
+// ─── Render & Init ────────────────────────────────────────────────────────────
 function render(){
   applyTheme(state.settings);
   const app=document.getElementById('app');
@@ -748,13 +832,10 @@ function render(){
   app.appendChild(h('div',{className:'main'},[state.selected?renderProfile(state.selected):renderGallery()]));
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
 applyTheme(state.settings);
 showLoading();
 dbLoad().then(()=>{
-  state.loading=false;
-  hideLoading();
-  render();
+  state.loading=false;hideLoading();render();
 }).catch(err=>{
   hideLoading();
   document.getElementById('app').innerHTML=`<div style="text-align:center;padding:80px 20px;color:var(--muted);font-family:var(--font)"><p style="font-size:18px;margin-bottom:10px">⚠ Could not connect to database</p><p style="font-size:13px;opacity:0.7">${err.message}</p></div>`;
